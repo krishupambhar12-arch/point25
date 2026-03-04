@@ -295,9 +295,9 @@ router.get("/profile", auth, async (req, res) => {
 router.put("/profile", auth, upload.single("profilePicture"), async (req, res) => {
   try {
     const userId = req.userId;
-    const { name, phone, address, dateOfBirth, gender } = req.body;
+    const { name, phone, address, dateOfBirth, dob, gender } = req.body;
     
-    console.log("🔍 Profile update request:", { userId, name, phone, address, dateOfBirth, gender });
+    console.log("🔍 Profile update request:", { userId, name, phone, address, dateOfBirth, dob, gender });
     console.log("🔍 File received:", req.file ? req.file.filename : 'No file');
     console.log("🔍 Request body keys:", Object.keys(req.body));
     
@@ -310,10 +310,12 @@ router.put("/profile", auth, upload.single("profilePicture"), async (req, res) =
     console.log("🔍 User found:", user.email);
 
     // Update user fields only if they are provided
+    // Support both 'dob' (from frontend) and 'dateOfBirth' (alternative)
+    const dobValue = dob || dateOfBirth;
     if (name !== undefined && name !== '') user.name = name;
     if (phone !== undefined && phone !== '') user.phone = phone;
     if (address !== undefined && address !== '') user.address = address;
-    if (dateOfBirth !== undefined && dateOfBirth !== '') user.dateOfBirth = new Date(dateOfBirth);
+    if (dobValue !== undefined && dobValue !== '') user.dateOfBirth = new Date(dobValue);
     if (gender !== undefined && gender !== '') user.gender = gender;
     
     // Update profile picture if uploaded
