@@ -33,24 +33,24 @@
 .doctors-table td {
   padding: 12px;
   text-align: left;
-  border-bottom: 1px solid #dee2e6;
+  border-bottom: 1px solid var(--color-medium);
 }
 
 .doctors-table th {
-  background-color: #f8f9fa;
+  background-color: var(--color-lightest);
   font-weight: 600;
-  color: #495057;
+  color: var(--color-darkest);
   border-bottom: 2px solid #dee2e6;
 }
 
 .doctors-table tr:hover {
-  background-color: #f8f9fa;
+  background-color: var(--color-lightest);
 }
 
 .no-data {
   text-align: center;
   padding: 60px 20px;
-  color: #6c757d;
+  color: var(--color-medium);
 }
 
 .no-data p {
@@ -86,7 +86,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px 24px;
-  border-bottom: 1px solid #dee2e6;
+  border-bottom: 1px solid var(--color-medium);
 }
 
 .modal-header h3 {
@@ -100,7 +100,7 @@
   border: none;
   font-size: 24px;
   cursor: pointer;
-  color: #6c757d;
+  color: var(--color-medium);
   padding: 0;
   width: 30px;
   height: 30px;
@@ -139,7 +139,7 @@
 .form-group select {
   width: 100%;
   padding: 10px 12px;
-  border: 2px solid #dee2e6;
+  border: 2px solid var(--color-medium);
   border-radius: 6px;
   font-size: 14px;
   transition: border-color 0.3s;
@@ -148,7 +148,7 @@
 .form-group input:focus,
 .form-group select:focus {
   outline: none;
-  border-color: #007bff;
+  border-color: var(--color-medium);
   box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
 }
 
@@ -191,17 +191,17 @@
 }
 
 .btn-primary:hover {
-  background-color: #0056b3;
+  background-color: var(--color-medium);
 }
 
 .btn-edit {
-  background-color: #28a745;
+  background-color: var(--color-dark);
   color: white;
   margin-right: 8px;
 }
 
 .btn-edit:hover {
-  background-color: #1e7e34;
+  background-color: var(--color-medium);
 }
 
 .btn-view {
@@ -211,16 +211,16 @@
 }
 
 .btn-view:hover {
-  background-color: #138496;
+  background-color: var(--color-dark);
 }
 
 .btn-delete {
-  background-color: #dc3545;
+  background-color: var(--color-light);
   color: white;
 }
 
 .btn-delete:hover {
-  background-color: #c82333;
+  background-color: var(--color-dark);
 }
 
 .btn-cancel {
@@ -229,16 +229,16 @@
 }
 
 .btn-cancel:hover {
-  background-color: #545b62;
+  background-color: var(--color-light);
 }
 
 .btn-all-details {
-  background-color: #6f42c1;
+  background-color: var(--color-medium);
   color: white;
 }
 
 .btn-all-details:hover {
-  background-color: #5a32a3;
+  background-color: var(--color-dark);
 }
 
 .btn-regenerate {
@@ -251,7 +251,7 @@
 }
 
 .btn-regenerate:hover {
-  background-color: #138496;
+  background-color: var(--color-dark);
 }
 
 .attorney-code-input {
@@ -278,7 +278,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 0;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--color-medium);
 }
 
 .detail-row:last-child {
@@ -323,20 +323,20 @@
 .all-details-table td {
   padding: 10px;
   text-align: left;
-  border-bottom: 1px solid #dee2e6;
+  border-bottom: 1px solid var(--color-medium);
 }
 
 .all-details-table th {
-  background-color: #f8f9fa;
+  background-color: var(--color-lightest);
   font-weight: 600;
-  color: #495057;
+  color: var(--color-darkest);
   position: sticky;
   top: 0;
   z-index: 10;
 }
 
 .all-details-table tr:hover {
-  background-color: #f8f9fa;
+  background-color: var(--color-lightest);
 }
 
 /* Responsive Design */
