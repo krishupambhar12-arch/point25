@@ -1,12 +1,35 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import './variables.css';
 
+/* Back Button */
+.back-btn {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-primary);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: rgba(92, 71, 80, 0.1);
+  transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+  background: rgba(92, 71, 80, 0.2);
+  transform: translateX(-3px);
+}
+
 .register-container {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-lightest); /* Same background as login */
+  background: var(--color-secondary);
   font-family: 'Inter', sans-serif;
   padding: 20px;
 }
@@ -39,9 +62,10 @@
 
 /* Right Side - Register Form */
 .register-form {
-  flex: 1;
+  position: relative;
+  flex: 0 0 450px;
   background: white;
-  padding: 120px;
+  padding: 50px 40px;
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   display: flex;

@@ -21,13 +21,13 @@ const Header = () => {
   return (
     <header className="site-header">
       <div className="logo">
-        <div className="logo-container">
+        <Link to="/" className="logo-container">
           <FaBalanceScale className="logo-icon" />
           <div className="logo-text-container">
             <span className="logo-text-main">Justice</span>
             <span className="logo-text-sub">Point</span>
           </div>
-        </div>
+        </Link>
       </div>
       <nav>
         <li><Link to="/">Home</Link></li>

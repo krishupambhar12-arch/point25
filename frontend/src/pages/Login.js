@@ -263,97 +263,19 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      <div className="login-content-wrapper">
-        {/* Left Side Box - Website Information */}
-        <div className="login-left-box">
-          {/* Home Arrow Button */}
-          <Link to="/" className="home-arrow-btn">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-            </svg>
-            {/* <span>Home</span> */}
-          </Link>
+      {/* Login Form */}
+      <form className="login-form" onSubmit={handleSubmit}>
+        {/* Back Button */}
+        <Link to="/" className="back-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+          </svg>
           
-          <div className="brand-section">
-            <h1 className="brand-name">Justice Point</h1>
-            <p className="brand-tagline">Your Trusted Legal Partner</p>
-          </div>
-          
-          <div className="features-section">
-            <h3>Why Choose Justice Point?</h3>
-            <div>
-            <div className="feature-item">
-              <div className="feature-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-              </div>
-              <div className="feature-text">
-                <h4>Verified Attorneys</h4>
-                {/* <p>Connect with experienced and verified legal professionals</p> */}
-              </div>
-            </div>
-            
-            <div className="feature-item">
-              <div className="feature-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                </svg>
-              </div>
-              <div className="feature-text">
-                <h4>Secure & Confidential</h4>
-                {/* <p>Your legal matters are handled with complete privacy</p> */}
-              </div>
-            </div>
-            
-            <div className="feature-item">
-              <div className="feature-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="2"/>
-                  <path d="M12 6v6l4 4"/>
-
-                </svg>
-              </div>
-              <div className="feature-text">
-                <h4>24/7 client support</h4>
-                {/* <p>Round-the-clock assistance whenever you need it</p> */}
-              </div>
-            </div>
-            
-            <div className="feature-item">
-              <div className="feature-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                </svg>
-              </div>
-              <div className="feature-text">
-                <h4>Quick Solutions</h4>
-                {/* <p>Fast and efficient legal assistance when you need it</p> */}
-              </div>
-            </div>
-            </div>  
-          </div>
-          
-          
-
-          <div className="testimonials-section">
-            <div className="testimonial">
-              <div className="testimonial-text">
-                Your Case, Our Commitment
-              </div>
-              <div className="testimonial-author">
-                <div className="author-name">Justice Point</div>
-                <div className="author-title">Legal Excellence</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Right Side - Login Form */}
-        <form className="login-form" onSubmit={handleSubmit}>
-            <h1 className="get">Get Started</h1>
-            <h4 className="ac">Login to your account or create a new one</h4>
-          <h2>Login</h2>
+        </Link>
+        
+        <h1 className="get">Get Started</h1>
+        <h4 className="ac">Login to your account or create a new one</h4>
+        <h2>Login</h2>
 
         {message && (
           <div className={`message ${message.includes('✅') ? 'success' : 'error'}`}>
@@ -416,31 +338,10 @@ const Login = () => {
           {loading ? 'Please wait...' : 'Login'}
         </button>
 
-        <div className="social-login-divider">
-          <span>or continue with</span>
-        </div>
-
-        <div className="social-login-buttons">
-          <button 
-            type="button" 
-            className="social-btn google-btn"
-            onClick={() => handleSocialLogin('google')}
-          >
-            <svg width="18" height="18" viewBox="0 0 18 18">
-              <path fill="#4285F4" d="M16.51 9H9v2.89h4.13c-.18 1.01-.73 1.87-1.55 2.44v1.87h2.51c1.47-1.35 2.32-3.34 2.32-5.7 0-.57-.06-1.12-.18-1.5z"/>
-              <path fill="#34A853" d="M9 17c2.16 0 3.97-.71 5.29-1.93l-2.51-1.87c-.7.47-1.59.73-2.78.73-2.13 0-3.94-1.44-4.59-3.38H1.83v1.93C3.13 15.53 5.87 17 9 17z"/>
-              <path fill="#FBBC05" d="M4.41 10.05c-.17-.51-.26-1.06-.26-1.62s.09-1.11.26-1.62V4.88H1.83C1.31 5.88 1 7.02 1 8.43s.31 2.55.83 3.55l1.58-1.93z"/>
-              <path fill="#EA4335" d="M9 3.38c1.21 0 2.3.42 3.16 1.24l2.22-2.22C12.96 1.09 11.16.43 9 .43 5.87.43 3.13 1.97 1.83 4.88l2.58 1.93C5.06 4.82 6.87 3.38 9 3.38z"/>
-            </svg>
-            Google
-          </button>
-        </div>
-
         <div className="register-link">
           Don't have an account? <a href="/register">Register</a>
         </div>
-        </form>
-      </div>
+      </form>
     </div>
   );
 };

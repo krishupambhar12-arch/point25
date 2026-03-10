@@ -1,6 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import './variables.css';
 
+/* Back Button */
+.back-btn {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-primary);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: rgba(92, 71, 80, 0.1);
+  transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+  background: rgba(92, 71, 80, 0.2);
+  transform: translateX(-3px);
+}
+
 .login-container {
   min-height: 100vh;
   display: flex;
@@ -261,12 +284,15 @@
 
 /* Right Side - Login Form */
 .login-form {
+  position: relative;
   flex: 0 0 450px;
   background: white;
   padding: 50px 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 /* .get h1 h4 {
