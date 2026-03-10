@@ -85,7 +85,7 @@ body, html {
 
 .ai-card {
   cursor: pointer;
-  background: linear-gradient(135deg, #5C4750, #1E252B);
+  background: linear-gradient(135deg, var(--color-medium), var(--color-dark));
   color: white;
   display: flex;
   flex-direction: column;
@@ -94,7 +94,7 @@ body, html {
 }
 
 .ai-card:hover {
-  background: linear-gradient(135deg, #1E252B, #5C4750);
+  background: linear-gradient(135deg, var(--color-dark), var(--color-medium));
 }
 
 .ai-card p {
@@ -107,13 +107,13 @@ body, html {
 }
 
 .ai-card .book-btn {
-  background: #E6DDD0;
-  color: #1E252B;
+  background: var(--color-lightest);
+  color: var(--color-dark);
 }
 
 .ai-card .book-btn:hover {
-  background: #1E252B;
-  color: #E6DDD0;
+  background: var(--color-dark);
+  color: var(--color-lightest);
 }
 
 /* --- Section Titles (Select a Speciality / Symptoms) --- */
@@ -134,7 +134,7 @@ h2::after {
   width: 60px;
   height: 3px;
   /* background: var(--color-regular-purple); */
-  background: #917581;
+  background: #9C8BA9;
   margin: 0.5rem auto 0 auto;
   border-radius: 2px;
 }

@@ -6,7 +6,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #E6DDD0; /* Same background as login */
+  background: var(--color-lightest); /* Same background as login */
   font-family: 'Inter', sans-serif;
   padding: 20px;
 }
@@ -23,7 +23,7 @@
 /* Left Side Box - Same as Login */
 .login-left-box {
   flex: 0 0 440px;
-  background: linear-gradient(135deg, #5c4750 0%, #4a3a42 100%);
+  background: linear-gradient(135deg, var(--color-medium) 0%, var(--color-dark) 100%);
   border-radius: 15px;
   padding: 89px;
   color: white;
@@ -54,7 +54,7 @@
 .register-form h2 {
   font-size: 32px;
   font-weight: 700;
-  color: #1E252B;
+  color: var(--color-darkest);
   margin-bottom: 30px;
   letter-spacing: -0.5px;
 }
@@ -381,7 +381,7 @@
 }
 
 .register-button {
-  background-color: #5c4750;
+  background-color: var(--color-medium);
   color: white;
   border: none;
   padding: 12px;

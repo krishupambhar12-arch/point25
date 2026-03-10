@@ -4,9 +4,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: var(--color-dark-purple);
+  background: var(--color-dark);
   padding: 15px 50px;
-  color: #E6DDD0;
+  color: var(--color-lightest);
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -16,7 +16,7 @@
 .logo {
   font-size: 24px;
   font-weight: 700;
-  color: #E6DDD0;
+  color: var(--color-lightest);
   letter-spacing: 1px;
 }
 
@@ -34,7 +34,7 @@ nav li {
 nav a {
   text-decoration: none;
   font-size: 16px;
-  color: #E6DDD0;
+  color: var(--color-lightest);
   font-weight: 500;
   transition: color 0.3s ease;
 }
@@ -48,8 +48,8 @@ nav a:hover {
   padding: 8px 18px;
   border: none;
   border-radius: 6px;
-  background: #E6DDD0;
-  color: var(--color-dark-purple);
+  background: var(--color-lightest);
+  color: var(--color-darkest);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -58,8 +58,8 @@ nav a:hover {
 }
 
 .login-btn:hover {
-  background: var(--color-nearly-black);
-  color: #E6DDD0;
+  background: var(--color-darkest);
+  color: var(--color-lightest);
   text-decoration: none;  /* Ensure no underline on hover */
 }
 
@@ -72,7 +72,7 @@ nav a:hover {
 /* Icon styling */
 .dashboard-icon {
   font-size: 28px;
-  color: #E6DDD0;
+  color: var(--color-lightest);
   cursor: pointer;
   transition: color 0.3s ease;
 }
@@ -84,7 +84,7 @@ nav a:hover {
 /* Dashboard button / icon */
 .dashboard-btn {
   font-size: 26px;
-  color: #E6DDD0;
+  color: var(--color-lightest);
   transition: color 0.3s ease;
   text-decoration: none;
 }

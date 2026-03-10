@@ -1,12 +1,18 @@
 :root {
-  /* Core palette from uploaded image */
-  --color-lightest: #E6DDD0;   /* light beige background */
-  --color-soft-purple: #E6DDD0; /* soft light tone */
-  --color-muted-purple: #5C4750; /* muted accent */
-  --color-regular-purple: #5C4750; /* primary accent */
-  --color-dark-purple: #1E252B;   /* dark surface / headings */
-  --color-deep-purple: #1E252B;   /* deep accents */
-  --color-nearly-black: #1E252B;  /* darkest text */
+  /* Lilac Color Palette */
+  --color-lightest: #CFC5DD;   /* lightest lilac */
+  --color-light: #C1B2D5;   /* light lilac */
+  --color-medium: #9C8BA9;   /* medium lilac */
+  --color-dark: #8A7699;   /* dark lilac */
+  --color-darkest: #7B638D;   /* darkest lilac */
+  
+  /* Semantic color mappings */
+  --color-soft-purple: var(--color-lightest); /* soft background */
+  --color-muted-purple: var(--color-medium); /* muted accent */
+  --color-regular-purple: var(--color-medium); /* primary accent */
+  --color-dark-purple: var(--color-dark); /* dark surface / headings */
+  --color-deep-purple: var(--color-darkest); /* deep accents */
+  --color-nearly-black: var(--color-darkest); /* darkest text */
 
   --font-main: 'Roboto', sans-serif;
 }
