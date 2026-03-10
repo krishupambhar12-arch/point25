@@ -18,7 +18,7 @@ const AdminFeedback = () => {
     updating: null,
     responding: null,
     deleting: null
-  });
+  });      
 
   const token = localStorage.getItem('token');         
 
