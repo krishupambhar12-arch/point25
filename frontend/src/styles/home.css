@@ -23,7 +23,7 @@ body, html {
   width: 100%;
   padding: 0.9rem 1rem; /* removed left padding since icon is gone */
   border-radius: 50px;
-  border: 2px solid var(--color-regular-purple);
+  border: 2px solid var(--color-primary);
   font-size: 1rem;
   outline: none;
   transition: all 0.3s ease;
@@ -38,7 +38,7 @@ body, html {
 }
 
 .search-bar input::placeholder {
-  color: var(--color-muted-purple);
+  color: var(--color-primary);
   font-style: italic;
 }
 
@@ -85,7 +85,7 @@ body, html {
 
 .ai-card {
   cursor: pointer;
-  background: linear-gradient(135deg, var(--color-medium), var(--color-dark));
+  background: var(--panel-gradient-3);
   color: white;
   display: flex;
   flex-direction: column;
@@ -94,7 +94,7 @@ body, html {
 }
 
 .ai-card:hover {
-  background: linear-gradient(135deg, var(--color-dark), var(--color-medium));
+  background: var(--panel-gradient);
 }
 
 .ai-card p {
@@ -121,7 +121,7 @@ h2 {
   margin: 5rem 0 2.5rem 0;    /* top margin increased to 5rem, bottom 2.5rem */
   font-size: 2rem;            /* readable & prominent */
   font-weight: 700;           /* bold but clean */
-  color: var(--color-regular-purple);
+  color: var(--color-primary);
   text-align: center;         /* centered */
   letter-spacing: 1px;
   position: relative;
@@ -239,7 +239,7 @@ h2::after {
   font-size: 1rem;
   font-weight: 600;
   margin-bottom: -20px;
-  color: var(--color-regular-purple);
+  color: var(--color-primary);
 }
 
 .symptom p {
@@ -253,7 +253,7 @@ h2::after {
 
 /* --- Book Now Button --- */
 .book-btn {
-  background: var(--color-regular-purple);
+  background: var(--color-button);
   color: #fff;
   border: none;
   padding: 0.6rem 1.5rem;
@@ -264,7 +264,7 @@ h2::after {
 }
 
 .book-btn:hover {
-  background: var(--color-dark-purple);
+  background: var(--color-secondary);
   transform: translateY(-2px);
 }
 

@@ -63,18 +63,19 @@
 }
 
 .submit-btn {
-  background: var(--color-regular-purple);
-  color: #fff;
+  background: #7b638D;
+  color: white;
   border: none;
-  padding: 0.8rem 1.5rem;
-  font-size: 1rem;
-  border-radius: 25px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
   transition: 0.3s ease;
 }
 
 .submit-btn:hover {
-  background: var(--color-dark-purple);
+  background: var(--color-secondary);
   transform: translateY(-2px);
 }
 

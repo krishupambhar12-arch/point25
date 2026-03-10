@@ -1,7 +1,7 @@
 // src/components/Header.js
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaUserCircle } from "react-icons/fa"; // dashboard icon
+import { FaUserCircle, FaBalanceScale } from "react-icons/fa"; // dashboard icon and justice scale icon
 import "./header.css";
 
 const Header = () => {
@@ -20,7 +20,15 @@ const Header = () => {
 
   return (
     <header className="site-header">
-      <div className="logo">Justice Point</div>
+      <div className="logo">
+        <div className="logo-container">
+          <FaBalanceScale className="logo-icon" />
+          <div className="logo-text-container">
+            <span className="logo-text-main">Justice</span>
+            <span className="logo-text-sub">Point</span>
+          </div>
+        </div>
+      </div>
       <nav>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/services">Services</Link></li>

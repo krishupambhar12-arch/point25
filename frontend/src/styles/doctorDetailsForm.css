@@ -65,20 +65,19 @@
 }
 
 .submit-button {
-  background-color: var(--color-regular-purple);
+  background-color: #7b638D;
   color: white;
   border: none;
-  padding: 12px;
-  width: 100%;
+  padding: 12px 24px;
   border-radius: 8px;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 .submit-button:hover {
-  background-color: var(--color-deep-purple);
+  background-color: var(--color-secondary);
 }
 
 /* Profile Picture Upload */

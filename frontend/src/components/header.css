@@ -1,12 +1,14 @@
 @import "../styles/variables.css";
 
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Montserrat:wght@400;600;700&display=swap');
+
 .site-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: var(--color-dark);
   padding: 15px 50px;
-  color: var(--color-lightest);
+  color: var(--color-white);
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -16,8 +18,65 @@
 .logo {
   font-size: 24px;
   font-weight: 700;
-  color: var(--color-lightest);
+  color: var(--color-white);
   letter-spacing: 1px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: all 0.3s ease;
+}
+
+.logo-container:hover {
+  transform: scale(1.05);
+}
+
+.logo-icon {
+  font-size: 42px;
+  color: var(--color-white);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  transition: all 0.3s ease;
+}
+
+.logo-container:hover .logo-icon {
+  color: var(--color-secondary);
+  transform: rotate(5deg);
+}
+
+.logo-text {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--color-white);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  letter-spacing: 1.5px;
+}
+
+.logo-text-container {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.logo-text-main {
+  font-size: 40px;
+  font-weight: 900;
+  color: var(--color-white);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  letter-spacing: 2px;
+  font-family: 'Playfair Display', serif;
+}
+
+.logo-text-sub {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--color-white);
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  letter-spacing: 3px;
+  margin-top: 2px;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
 }
 
 /* Navigation */
@@ -34,13 +93,13 @@ nav li {
 nav a {
   text-decoration: none;
   font-size: 16px;
-  color: var(--color-lightest);
+  color: var(--color-white);
   font-weight: 500;
   transition: color 0.3s ease;
 }
 
 nav a:hover {
-  color: var(--color-soft-purple);
+  color: var(--color-primary);
 }
 
 /* Login button */
@@ -48,8 +107,8 @@ nav a:hover {
   padding: 8px 18px;
   border: none;
   border-radius: 6px;
-  background: var(--color-lightest);
-  color: var(--color-darkest);
+  background: var(--color-button);
+  color: var(--color-white);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -58,8 +117,8 @@ nav a:hover {
 }
 
 .login-btn:hover {
-  background: var(--color-darkest);
-  color: var(--color-lightest);
+  background: var(--color-secondary);
+  color: var(--color-white);
   text-decoration: none;  /* Ensure no underline on hover */
 }
 
@@ -72,23 +131,23 @@ nav a:hover {
 /* Icon styling */
 .dashboard-icon {
   font-size: 28px;
-  color: var(--color-lightest);
+  color: var(--color-white);
   cursor: pointer;
   transition: color 0.3s ease;
 }
 
 .dashboard-icon:hover {
-  color: var(--color-soft-purple);
+  color: var(--color-primary);
 }
 
 /* Dashboard button / icon */
 .dashboard-btn {
   font-size: 26px;
-  color: var(--color-lightest);
+  color: var(--color-white);
   transition: color 0.3s ease;
   text-decoration: none;
 }
 
 .dashboard-btn:hover {
-  color: var(--color-soft-purple);
+  color: var(--color-primary);
 }

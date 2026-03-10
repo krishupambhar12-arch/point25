@@ -1,9 +1,11 @@
 @import '../styles/variables.css';
 
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Montserrat:wght@400;600;700&display=swap');
+
 .doctor-sidebar {
   width: 230px;
   height: 100vh;
-  background: linear-gradient(180deg, var(--color-regular-purple), var(--color-dark-purple));
+  background: var(--panel-gradient-2);
   color: #fff;
   padding: 25px 20px;
   display: flex;
@@ -15,11 +17,70 @@
 }
 
 .doctor-sidebar .logo {
-  font-size: 22px;
-  font-weight: 700;
   text-align: center;
   margin-bottom: 40px;
   color: #fff;
+}
+
+.doctor-sidebar .logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.doctor-sidebar .logo-container:hover {
+  transform: scale(1.05);
+}
+
+.doctor-sidebar .logo-icon {
+  font-size: 32px;
+  color: var(--color-white);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  transition: all 0.3s ease;
+}
+
+.doctor-sidebar .logo-container:hover .logo-icon {
+  color: var(--color-secondary);
+  transform: rotate(5deg);
+}
+
+.doctor-sidebar .logo-text-container {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  align-items: center;
+}
+
+.doctor-sidebar .logo-text-main {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--color-white);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  letter-spacing: 1.5px;
+  font-family: 'Playfair Display', serif;
+}
+
+.doctor-sidebar .logo-text-sub {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-white);
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  letter-spacing: 2px;
+  margin-top: 2px;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.doctor-sidebar .panel-text {
+  font-size: 18px;
+  font-weight: 500;
+  color: #fff;
+  margin: 40px 0 0 0;
+  text-align: center;
+  font-family: inherit;
+  opacity: 0.8;
 }
 
 .doctor-sidebar .menu {
@@ -31,6 +92,10 @@
 
 .doctor-sidebar .menu li {
   margin-bottom: 18px;
+}
+
+.doctor-sidebar .hidden-item {
+  display: none;
 }
 
 .doctor-sidebar .menu li a {
@@ -46,8 +111,8 @@
 
 .doctor-sidebar .menu li a:hover,
 .doctor-sidebar .menu li a.active {
-  background-color: var(--color-soft-purple);
-  color: var(--color-nearly-black);
+  background-color: var(--color-primary);
+  color: var(--color-accent);
   transform: translateX(5px);
 }
 
@@ -68,6 +133,6 @@
 
 .doctor-sidebar .logout-btn:hover {
   background: #fff;
-  color: var(--color-dark-purple);
+  color: var(--color-button);
   transform: translateX(5px);
 }

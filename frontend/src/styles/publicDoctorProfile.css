@@ -99,12 +99,12 @@
 }
 
 .book-appointment-btn {
-  background: var(--color-regular-purple);
+  background: var(--color-button);
   color: white;
 }
 
 .book-appointment-btn:hover {
-  background: var(--color-dark-purple);
+  background: var(--color-secondary);
   transform: translateY(-2px);
 }
 
@@ -401,18 +401,19 @@
 }
 
 .error-container button {
-  background: var(--color-regular-purple);
+  background: #7b638D;
   color: white;
   border: none;
-  padding: 0.8rem 1.5rem;
-  border-radius: 25px;
-  font-size: 1rem;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
   transition: background 0.3s ease;
 }
 
 .error-container button:hover {
-  background: var(--color-dark-purple);
+  background: #7b638D;
 }
 
 /* Responsive Design */

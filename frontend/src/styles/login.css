@@ -6,7 +6,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-lightest);
+  background: var(--color-secondary);
   font-family: 'Inter', sans-serif;
   padding: 20px;
 }
@@ -59,7 +59,7 @@
 /* Left Side Box - Website Information */
 .login-left-box {
   flex: 0 0 500px;
-  background: linear-gradient(135deg, var(--color-medium), var(--color-dark));
+  background: var(--panel-gradient);
   color: white;
   padding: 50px 40px;
   display: flex;
@@ -118,7 +118,7 @@
 }
 
 .bullet-icon {
-  color: var(--color-medium);
+  color: var(--color-primary);
   font-weight: bold;
   font-size: 16px;
   margin-right: 12px;
@@ -272,7 +272,7 @@
 /* .get h1 h4 {
     font-size: 24px;
     font-weight: 600;
-    color: var(--color-darkest);
+    color: var(--color-accent);
     margin-bottom: 30px;
     letter-spacing: -0.5px;
 } */
@@ -301,7 +301,7 @@
 .login-form h2 {
   font-size: 32px;
   font-weight: 700;
-  color: var(--color-darkest);
+  color: var(--color-accent);
   margin-bottom: 30px;
   letter-spacing: -0.5px;
 }
@@ -348,13 +348,14 @@
   font-size: 16px;
   font-weight: 500;
   transition: all 0.3s ease;
-  background: var(--color-lightest);
-  color: var(--color-darkest);
+  background: var(--color-secondary);
+  color: var(--color-accent);
 }
 
 .login-form .form-group input:focus {
   outline: none;
-  border-color: var(--color-medium);
+  border-color: var(--color-secondary);
+  border-color: var(--color-primary);
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
   background: white;
 }
@@ -378,7 +379,7 @@
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: var(--color-medium);
+  color: var(--color-primary);
   cursor: pointer;
   padding: 8px;
   border-radius: 8px;
@@ -401,7 +402,7 @@
 .forgot-password {
   background: none;
   border: none;
-  color: var(--color-medium);
+  color: var(--color-primary);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -418,7 +419,7 @@
 .login-button {
   width: 100%;
   padding: 16px;
-  background: linear-gradient(135deg);
+  background: var(--color-button);
   color: white;
   border: none;
   border-radius: 12px;
@@ -447,7 +448,7 @@
 
 .login-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 10px 25px rgba(123, 99, 141, 0.3);
 }
 
 .login-button:disabled {
@@ -475,7 +476,7 @@
 .social-login-divider span {
   background: rgba(255, 255, 255, 0.95);
   padding: 0 16px;
-  color: var(--color-medium);
+  color: var(--color-primary);
   font-size: 14px;
   font-weight: 500;
   position: relative;
@@ -526,13 +527,13 @@
 
 .register-link {
   text-align: center;
-  color: var(--color-medium);
+  color: var(--color-primary);
   font-size: 14px;
   font-weight: 500;
 }
 
 .register-link a {
-  color: var(--color-medium);
+  color: var(--color-primary);
   text-decoration: none;
   font-weight: 600;
   transition: all 0.2s ease;

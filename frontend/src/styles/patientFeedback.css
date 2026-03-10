@@ -47,7 +47,7 @@
 }
 
 .submit-feedback-btn {
-  background-color: var(--color-regular-purple);
+  background-color: var(--color-button);
   color: #fff;
   border: none;
   padding: 12px 24px;
@@ -59,7 +59,7 @@
 }
 
 .submit-feedback-btn:hover {
-  background-color: var(--color-dark-purple);
+  background-color: var(--color-secondary);
 }
 
 .error-message {
@@ -150,12 +150,12 @@
 }
 
 .submit-btn {
-  background-color: var(--color-regular-purple);
+  background-color: var(--color-button);
   color: #fff;
 }
 
 .submit-btn:hover:not(:disabled) {
-  background-color: var(--color-dark-purple);
+  background-color: var(--color-secondary);
 }
 
 .submit-btn:disabled {

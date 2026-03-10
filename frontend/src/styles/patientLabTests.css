@@ -46,7 +46,7 @@
 }
 
 .bookings-table th {
-  background: var(--color-regular-purple);
+  background: var(--color-button);
   color: #fff;
   font-weight: 600;
 }

@@ -438,12 +438,12 @@
 }
 
 .response-form .submit-btn {
-  background-color: var(--color-regular-purple);
+  background-color: var(--color-button);
   color: #fff;
 }
 
 .response-form .submit-btn:hover:not(:disabled) {
-  background-color: var(--color-dark-purple);
+  background-color: var(--color-secondary);
 }
 
 .response-form .submit-btn:disabled {

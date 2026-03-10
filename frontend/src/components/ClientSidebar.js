@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { FaBalanceScale } from "react-icons/fa";
 import "./patientSidebar.css";
 
 const ClientSidebar = () => {
@@ -16,7 +17,16 @@ const ClientSidebar = () => {
   return (
     <div className="patient-sidebar">
       <div className="sidebar-menu">
-        <h2>Client Panel</h2>
+        <div className="logo">
+          <div className="logo-container">
+            <FaBalanceScale className="logo-icon" />
+            <div className="logo-text-container">
+              <span className="logo-text-main">Justice</span>
+              <span className="logo-text-sub">Point</span>
+            </div>
+          </div>
+          <h3 className="panel-text">Client Panel</h3>
+        </div>
         <ul>
           <li>
             <NavLink 

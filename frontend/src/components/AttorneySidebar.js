@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { FaBalanceScale } from "react-icons/fa";
 import "./doctorSidebar.css";
 
 const AttorneySidebar = () => {
@@ -15,13 +16,22 @@ const AttorneySidebar = () => {
 
   return (
     <div className="doctor-sidebar">
-      <h2 className="logo">Attorney Panel</h2>
+      <div className="logo">
+        <div className="logo-container">
+          <FaBalanceScale className="logo-icon" />
+          <div className="logo-text-container">
+            <span className="logo-text-main">Justice</span>
+            <span className="logo-text-sub">Point</span>
+          </div>
+        </div>
+        <h3 className="panel-text">Attorney Panel</h3>
+      </div>
       <ul className="menu">
         <li><Link to="/">Home</Link></li>
         <li><Link to="/attorney/dashboard">Dashboard</Link></li>
         <li><Link to="/attorney/profile">Profile</Link></li>
         <li><Link to="/attorney/appointments">Appointments</Link></li>
-        <li><Link to="/attorney/consultation">Consultations</Link></li>
+        <li className="hidden-item"><Link to="/attorney/consultation">Consultations</Link></li>
         <li><button onClick={handleLogout} className="logout-btn">Logout</button></li>
       </ul>
     </div>
@@ -29,4 +39,5 @@ const AttorneySidebar = () => {
 };
 
 export default AttorneySidebar;
+
 

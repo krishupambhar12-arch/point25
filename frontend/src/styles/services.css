@@ -148,7 +148,7 @@
 }
 
 .service-card .book-btn {
-  background: var(--color-regular-purple);
+  background: var(--color-button);
   color: #fff;
   border: none;
   padding: 0.6rem 1.5rem;
@@ -160,7 +160,7 @@
 }
 
 .service-card .book-btn:hover {
-  background: var(--color-dark-purple);
+  background: var(--color-secondary);
   transform: translateY(-2px);
 }
 

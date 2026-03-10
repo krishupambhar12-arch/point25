@@ -4,7 +4,7 @@
    Promote to Admin Section */
 .promote-section {
   background: var(--color-lightest);
-  border: 1px solid var(--color-medium);
+  border: 1px solid var(--color-primary);
   border-radius: 8px;
   padding: 20px;
   margin: 20px 0;
@@ -13,12 +13,12 @@
 
 .promote-section p {
   margin: 0 0 15px 0;
-  color: var(--color-darkest);
+  color: var(--color-accent);
   font-size: 14px;
 }
 
 .promote-btn {
-  background: var(--color-medium);
+  background: var(--color-button);
   color: white;
   border: none;
   padding: 12px 24px;
@@ -30,7 +30,7 @@
 }
 
 .promote-btn:hover:not(:disabled) {
-  background: var(--color-dark);
+  background: var(--color-secondary);
 }
 
 .promote-btn:disabled {
@@ -44,7 +44,7 @@
 .dashboard-page {
   display: flex;
   min-height: 100vh;
-  background-color: var(--color-lightest);
+  background: var(--panel-gradient-2);
   font-family: var(--font-main);
 }
 

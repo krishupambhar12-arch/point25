@@ -135,13 +135,21 @@
 }
 
 .submit-btn {
-  background: linear-gradient(135deg, var(--color-regular-purple), var(--color-dark-purple));
+  background: #7b638D;
   color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .submit-btn:hover {
+  background: #7b638D;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(104, 80, 123, 0.4);
+  box-shadow: 0 4px 12px rgba(123, 99, 141, 0.4);
 }
 
 .cancel-btn {

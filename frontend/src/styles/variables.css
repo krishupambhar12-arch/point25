@@ -1,18 +1,27 @@
 :root {
-  /* Lilac Color Palette */
-  --color-lightest: #CFC5DD;   /* lightest lilac */
-  --color-light: #C1B2D5;   /* light lilac */
-  --color-medium: #9C8BA9;   /* medium lilac */
-  --color-dark: #8A7699;   /* dark lilac */
-  --color-darkest: #7B638D;   /* darkest lilac */
+  /* Three Color Palette - Purple Theme */
+  --color-primary: #9C8BA9;   /* primary purple */
+  --color-secondary: #8A7699;   /* secondary purple */
+  --color-accent: #7B638D;   /* accent purple */
   
   /* Semantic color mappings */
-  --color-soft-purple: var(--color-lightest); /* soft background */
-  --color-muted-purple: var(--color-medium); /* muted accent */
-  --color-regular-purple: var(--color-medium); /* primary accent */
-  --color-dark-purple: var(--color-dark); /* dark surface / headings */
-  --color-deep-purple: var(--color-darkest); /* deep accents */
-  --color-nearly-black: var(--color-darkest); /* darkest text */
+  --color-light: var(--color-primary); /* light backgrounds */
+  --color-medium: var(--color-secondary); /* medium elements */
+  --color-dark: var(--color-accent); /* dark elements/text */
+  --color-button: var(--color-accent); /* all buttons use #7b638D */
+  --color-soft-purple: var(--color-primary); /* soft backgrounds */
+  --color-muted-purple: var(--color-secondary); /* muted accents */
+  --color-regular-purple: var(--color-primary); /* primary accents */
+  --color-dark-purple: var(--color-secondary); /* dark surfaces/headings */
+  --color-deep-purple: var(--color-accent); /* deep accents */
+  --color-nearly-black: var(--color-accent); /* darkest text */
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  /* Panel gradients */
+  --panel-gradient: linear-gradient(135deg, var(--color-primary), var(--color-secondary), var(--color-accent));
+  --panel-gradient-2: linear-gradient(180deg, var(--color-primary), var(--color-secondary));
+  --panel-gradient-3: linear-gradient(135deg, var(--color-secondary), var(--color-accent));
 
   --font-main: 'Roboto', sans-serif;
 }

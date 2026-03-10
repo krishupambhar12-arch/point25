@@ -381,20 +381,17 @@
 }
 
 .register-button {
-  background-color: var(--color-medium);
+  background-color: #7b638D;
   color: white;
   border: none;
-  padding: 12px;
-  width: 100%;
-  border-radius: 8px;
+  padding: 16px;
+  border-radius: 12px;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s ease;
-}
-
-.register-button:hover {
-  background-color: #4a3a42;
+  position: relative;
+  overflow: hidden;
 }
 
 .register-button::before {
@@ -413,8 +410,9 @@
 }
 
 .register-button:hover {
+  background-color: #7b638D;
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 10px 25px rgba(123, 99, 141, 0.3);
 }
 
 .register-button:disabled {

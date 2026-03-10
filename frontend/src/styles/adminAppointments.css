@@ -56,7 +56,7 @@
 }
 
 .add-appointment-btn:hover {
-  background-color: var(--color-dark-purple);
+  background-color: var(--color-secondary);
 }
 
 .mark-expired-btn {
@@ -144,7 +144,7 @@
 
 /* Delete Button */
 .delete-btn {
-  background-color: var(--color-deep-purple);
+  background-color: #7b638D;
   color: white;
   border: none;
   padding: 6px 12px;
@@ -156,7 +156,8 @@
 }
 
 .delete-btn:hover:not(:disabled) {
-  background-color: var(--color-nearly-black);
+  background-color: #7b638D;
+  background-color: var(--color-secondary);
 }
 
 .delete-btn:disabled {
@@ -458,7 +459,7 @@
 }
 
 .submit-btn:hover:not(:disabled) {
-  background-color: var(--color-dark-purple);
+  background-color: var(--color-secondary);
 }
 
 .submit-btn:disabled {
