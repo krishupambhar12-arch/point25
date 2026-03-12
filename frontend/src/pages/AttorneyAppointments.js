@@ -24,6 +24,7 @@ const AttorneyAppointments = () => {
       return;
     }
 
+
     try {
       const res = await fetch(API.ATTORNEY_APPOINTMENTS, {
         headers: { Authorization: `Bearer ${token}` },
@@ -37,7 +38,7 @@ const AttorneyAppointments = () => {
     } finally {
       setLoading(false);
     }
-  };
+  };      
 
   useEffect(() => {
     fetchAppointments();

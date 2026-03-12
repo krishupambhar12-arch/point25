@@ -17,7 +17,7 @@ const AdminDashboard = () => {
   });
   const [adminInfo, setAdminInfo] = useState({});
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState('');       
 
   const token = localStorage.getItem('token');
   const role = localStorage.getItem('role');

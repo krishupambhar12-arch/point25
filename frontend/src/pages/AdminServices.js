@@ -22,7 +22,7 @@ const AdminServices = () => {
     category: 'Legal Service',
     iconFile: null
   });
-  const [formErrors, setFormErrors] = useState({});
+  const [formErrors, setFormErrors] = useState({});    
 
   const categories = ['Legal Service', 'Consultation', 'Document Review', 'Court Representation', 'Legal Advice'];
   const icons = ['⚖️', '📋', '🏛️', '💼', '🔍', '📝', '⭐'];
