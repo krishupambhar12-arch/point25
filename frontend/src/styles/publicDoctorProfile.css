@@ -134,10 +134,9 @@
 }
 
 .contact-item {
-  background: #f8f9fa;
+  
   padding: 1.25rem 1.5rem;
-  border-radius: 12px;
-  border: 1px solid #e9ecef;
+ 
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -161,10 +160,10 @@
 }
 
 .contact-item {
-  background: #f8f9fa;
+  /* background: #f8f9fa; */
   padding: 1.25rem 1.5rem;
-  border-radius: 12px;
-  border: 1px solid #e9ecef;
+  /* border-radius: 12px; */
+  /* border: 1px solid #e9ecef; */
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 

@@ -42,6 +42,10 @@ import ClientLabTests from "./pages/ClientLabTests";
 import Services from "./pages/Services";
 import GoogleCallback from "./pages/GoogleCallback";
 import ProfileRedirect from "./pages/ProfileRedirect";
+import TermsAndConditions from "./pages/TermsAndConditions";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import CookiePolicy from "./pages/CookiePolicy";
+import Disclaimer from "./pages/Disclaimer";
 
 function App() {
   return (
@@ -120,6 +124,10 @@ function App() {
           </ProtectedAdminRoute>
         } />
         <Route path="/ai-advisor" element={<AIAdvisor/>} />
+        <Route path="/terms" element={<TermsAndConditions/>} />
+        <Route path="/privacy" element={<PrivacyPolicy/>} />
+        <Route path="/cookies" element={<CookiePolicy/>} />
+        <Route path="/disclaimer" element={<Disclaimer/>} />
 
       </Routes>
     </Router>

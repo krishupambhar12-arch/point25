@@ -148,17 +148,18 @@
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
+  gap: 30px;
   margin-bottom: 30px;
 }
 
 .stat-card {
-  background: #fff;
+  background: #efeded;
   border-radius: 12px;
   padding: 20px;
   text-align: center;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s ease;
+  background: linear-gradient(135deg, #9C8BA9 0%, #8A7699 50%, #7B638D 100%);
 }
 
 .stat-card:hover {

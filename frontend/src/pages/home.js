@@ -96,7 +96,13 @@ const Home = () => {
   return (
     <>
       <Header />
-      {/* Search bar */}
+      
+
+      {/* Hero Section */}
+      <div className="hero-section">
+        <div className="hero-content">
+
+          {/* Search bar */}
       <div className="search-bar">
         <input
           type="text"
@@ -108,36 +114,106 @@ const Home = () => {
         <button onClick={handleSearch} className="search-btn">Search</button>
       </div>
 
-      {/* Banner Slider */}
-      <div className="banner-slider">
-        <Slider {...sliderSettings}>
-          <div><img src="/images/banner/1.avif" alt="Law 1" /></div>
-          <div><img src="/images/banner/2.webp" alt="Law 2" /></div>
-          <div><img src="/images/banner/3.jpg" alt="Law 3" /></div>
-        </Slider>
+          <h1 className="hero-title">Welcome to Justice Point</h1>
+          <p className="hero-subtitle">Your trusted platform for connecting with the best legal professionals. Book appointments, get legal advice, and resolve your legal matters efficiently.</p>
+          <div className="hero-buttons">
+            <button className="btn btn-secondary" onClick={() => handleBookNow("appointment")}>
+              <i className="fas fa-calendar-check me-2"></i>Book Appointment
+            </button>
+            <button className="btn btn-outline-light" onClick={() => navigate("/attorneys")}>
+              <i className="fas fa-users me-2"></i>Find a Lawyer
+            </button>
+          </div>
+          <div className="hero-stats">
+            <div className="hero-stat-item">
+              <div className="hero-stat-number">500+</div>
+              <div className="hero-stat-label">Expert Lawyers</div>
+            </div>
+            <div className="hero-stat-item">
+              <div className="hero-stat-number">10k+</div>
+              <div className="hero-stat-label">Happy Clients</div>
+            </div>
+            <div className="hero-stat-item">
+              <div className="hero-stat-number">15+</div>
+              <div className="hero-stat-label">Legal Categories</div>
+            </div>
+            <div className="hero-stat-item">
+              <div className="hero-stat-number">24/7</div>
+              <div className="hero-stat-label">Support</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="home-cards">
-        <div className="card">
-          <p>Book Appointment</p>
-          <button className="book-btn" onClick={() => handleBookNow("appointment")}>Book Now</button>
-        </div>
-
-        <div className="card">
-          <p>Online Attorney Consultation</p>
-          <button className="book-btn" onClick={() => handleBookNow("consultation")}>Book Now</button>
-        </div>
-
-        <div className="card">
-          <p>Legal Services</p>
-          <button className="book-btn" onClick={() => navigate("/services")}>View Services</button>
-        </div>
-
-        <div className="card ai-card" onClick={() => navigate("/ai-advisor")}>
-          <div className="ai-icon">🤖</div>
-          <p>AI Health Advisor</p>
-          <button className="book-btn">Chat Now</button>
+      
+      {/* Statistics Cards */}
+      <div className="statistics-cards-section">
+        <div className="statistics-container">
+          <div className="stat-card">
+            <i className="fas fa-gavel"></i>
+            <div className="stat-number">500+</div>
+            <div className="stat-label">Registered Lawyers</div>
+          </div>
+          <div className="stat-card">
+            <i className="fas fa-users"></i>
+            <div className="stat-number">2,500+</div>
+            <div className="stat-label">Clients Served</div>
+          </div>
+          <div className="stat-card">
+            <i className="fas fa-calendar-check"></i>
+            <div className="stat-number">5,000+</div>
+            <div className="stat-label">Appointments</div>
+          </div>
+          <div className="stat-card">
+            <i className="fas fa-balance-scale"></i>
+            <div className="stat-number">15+</div>
+            <div className="stat-label">Legal Areas</div>
+          </div>
         </div>
       </div>
+      
+      {/* How Justice Point Works Section */}
+      <div className="content-card">
+        <h2 className="text-center mb-5" style={{color: "#7B638D"}}>How Justice Point Works</h2>
+        <div className="row">
+          <div className="col-lg-3 col-md-6 mb-4">
+            <div className="feature-card">
+              <div className="feature-icon">
+                <i className="fas fa-search"></i>
+              </div>
+              <h3 className="feature-title">1. Search Lawyer</h3>
+              <p className="feature-description">Browse through our extensive network of qualified lawyers by specialty, location, or client ratings.</p>
+            </div>
+          </div>
+          <div className="col-lg-3 col-md-6 mb-4">
+            <div className="feature-card">
+              <div className="feature-icon">
+                <i className="fas fa-calendar-alt"></i>
+              </div>
+              <h3 className="feature-title">2. Book Appointment</h3>
+              <p className="feature-description">Select your preferred date, time slot, and case type. Upload relevant documents if needed.</p>
+            </div>
+          </div>
+          <div className="col-lg-3 col-md-6 mb-4">
+            <div className="feature-card" onClick={() => navigate("/ai-advisor")} style={{cursor: "pointer"}}>
+              <div className="feature-icon">
+                <i className="fas fa-robot"></i>
+              </div>
+              <h3 className="feature-title">AI Legal Advisor</h3>
+              <p className="feature-description">Get instant AI-powered legal guidance for your questions and concerns.</p>
+            </div>
+          </div>
+          <div className="col-lg-3 col-md-6 mb-4">
+            <div className="feature-card">
+              <div className="feature-icon">
+                <i className="fas fa-star"></i>
+              </div>
+              <h3 className="feature-title">4. Share Feedback</h3>
+              <p className="feature-description">Rate your experience and help other clients make informed decisions about legal services.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
       {/* Dynamic Services */}
       <h2>Our Legal Services</h2>
       <div className="services">

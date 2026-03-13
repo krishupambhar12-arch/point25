@@ -31,28 +31,41 @@ const AttorneyDetailsForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    console.log("🔍 Submitting attorney details...");
+    console.log("🔍 Form data:", formData);
+
     const data = new FormData();
     for (let key in formData) {
       data.append(key, formData[key]);
     }
 
     try {
+      console.log("🔍 Sending data to:", API.ATTORNEY_DETAILS);
       const res = await fetch(API.ATTORNEY_DETAILS, {
         method: "POST",
         body: data
       });
 
       const result = await res.json();
+      console.log("🔍 Response:", result);
+      console.log("🔍 Response status:", res.status);
+
       if (res.ok) {
         alert("✅ Attorney details submitted successfully!");
-        console.log(result);
+        console.log("✅ Details submitted successfully, navigating to dashboard...");
+        
+        // Store a flag to indicate profile was just updated
+        localStorage.setItem('profileUpdated', 'true');
+        
+        // Navigate to dashboard
         navigate("/attorney/dashboard");
       } else {
+        console.error("❌ Submission failed:", result);
         alert(result.message || "❌ Failed to submit details");
       }
     } catch (error) {
       console.error("❌ Error:", error);
-      alert("⚠️ Proceeding to dashboard...");
+      alert("⚠️ Error submitting details. Proceeding to dashboard...");
       navigate("/attorney/dashboard");
     }
   };
