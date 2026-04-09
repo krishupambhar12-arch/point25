@@ -4,11 +4,12 @@ import { API } from "../config/api";
 import "../styles/patientFeedback.css";
 import ClientSidebar from "../components/ClientSidebar";
 
-const PatientFeedback = () => {
+const ClientFeedback = () => {
   const location = useLocation();
   const [feedbacks, setFeedbacks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [openFormOnly, setOpenFormOnly] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -25,26 +26,38 @@ const PatientFeedback = () => {
       setOpenFormOnly(true);
     }
     fetchFeedbacks();
-  }, []);
+  }, [location?.state?.openFormOnly]);
 
   const fetchFeedbacks = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
-      setError("Not authenticated");
+      setError("Not authenticated. Please login to view feedback.");
       setLoading(false);
       return;
     }
 
     try {
+      console.log("Fetching feedbacks from:", API.GET_USER_FEEDBACK);
       const res = await fetch(API.GET_USER_FEEDBACK, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      
+      console.log("Response status:", res.status);
       const data = await res.json();
+      console.log("Response data:", data);
+      
       if (!res.ok) throw new Error(data.message || "Failed to load feedback");
 
       setFeedbacks(data.feedbacks || []);
+      setError("");
+      setSuccess("");
     } catch (e) {
-      setError(e.message);
+      console.error("Error fetching feedbacks:", e);
+      if (e.message === "API endpoint not found") {
+        setError("Feedback service is not available. Please contact support.");
+      } else {
+        setError(e.message || "Failed to load feedback. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -67,7 +80,16 @@ const PatientFeedback = () => {
     setError("");
 
     const token = localStorage.getItem("token");
+    if (!token) {
+      setError("Not authenticated. Please login to submit feedback.");
+      setSubmitting(false);
+      return;
+    }
+
     try {
+      console.log("Submitting feedback to:", API.SUBMIT_FEEDBACK);
+      console.log("Form data:", formData);
+      
       const res = await fetch(API.SUBMIT_FEEDBACK, {
         method: "POST",
         headers: {
@@ -77,17 +99,26 @@ const PatientFeedback = () => {
         body: JSON.stringify(formData),
       });
 
+      console.log("Submit response status:", res.status);
       const data = await res.json();
+      console.log("Submit response data:", data);
+      
       if (!res.ok) throw new Error(data.message || "Failed to submit feedback");
 
       // Reset form
       setFormData({ subject: "", message: "", rating: 5 });
       setShowForm(false);
       setError("");
+      setSuccess("Feedback submitted successfully!");
       // Refresh feedback list
       fetchFeedbacks();
     } catch (e) {
-      setError(e.message);
+      console.error("Error submitting feedback:", e);
+      if (e.message === "API endpoint not found") {
+        setError("Feedback service is not available. Please contact support.");
+      } else {
+        setError(e.message || "Failed to submit feedback. Please try again.");
+      }
     } finally {
       setSubmitting(false);
     }
@@ -118,6 +149,9 @@ const PatientFeedback = () => {
     return (
       <div className="feedback-form-only-page">
         <div className="feedback-container form-only">
+          {success && !submitting && (
+            <div className="success-message">{success}</div>
+          )}
           {error && !submitting && (
             <div className="error-message">{error}</div>
           )}
@@ -192,12 +226,19 @@ const PatientFeedback = () => {
           <h2>My Feedback</h2>
           <button 
             className="submit-feedback-btn" 
-            onClick={() => setShowForm(!showForm)}
+            onClick={() => {
+              setShowForm(!showForm);
+              setSuccess("");
+              setError("");
+            }}
           >
             {showForm ? "Cancel" : "+ Submit Feedback"}
           </button>
         </div>
 
+        {success && !submitting && (
+          <div className="success-message">{success}</div>
+        )}
         {error && !submitting && (
           <div className="error-message">{error}</div>
         )}
@@ -256,6 +297,7 @@ const PatientFeedback = () => {
                     setShowForm(false);
                     setFormData({ subject: "", message: "", rating: 5 });
                     setError("");
+                    setSuccess("");
                   }}
                   className="cancel-btn"
                 >
@@ -331,5 +373,5 @@ const PatientFeedback = () => {
   );
 };
 
-export default PatientFeedback;
+export default ClientFeedback;
 

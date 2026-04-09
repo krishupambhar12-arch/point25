@@ -182,7 +182,7 @@ const AdminDashboard = () => {
 
         <div className="admin-dashboard">
           <div className="dashboard-header">
-            <h2>Admin Dashboard</h2>
+            <h2>Welcome, Admin Krishna</h2>
             {adminInfo?.name && (
               <div className="admin-info">
                 <p>Welcome, <strong>{adminInfo.name}</strong></p>
@@ -221,44 +221,7 @@ const AdminDashboard = () => {
             </div>
           </div>
 
-          <div className="recent-appointments">
-            <h3>Recent Appointments</h3>
-            <div className="appointments-table">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Client</th>
-                    <th>Attorney</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {appointments.length > 0 ? appointments.map(appointment => (
-                    <tr key={appointment.id}>
-                      <td>{appointment.date || "N/A"}</td>
-                      <td>{appointment.time || "N/A"}</td>
-                      <td>{appointment.patient || "Unknown"}</td>
-                      <td>{appointment.doctor || "Unknown"}</td>
-                      <td>
-                        <span
-                          className="status-badge"
-                          style={{ backgroundColor: getStatusColor(appointment.status) }}
-                        >
-                          {appointment.status}
-                        </span>
-                      </td>
-                    </tr>
-                  )) : (
-                    <tr>
-                      <td colSpan="5" style={{ textAlign: 'center' }}>No appointments found</td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
+         
         </div>
       </div>
     </div>

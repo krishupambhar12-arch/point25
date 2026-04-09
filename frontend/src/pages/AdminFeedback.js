@@ -215,8 +215,8 @@ const AdminFeedback = () => {
                     <div className="feedback-user-info">
                       <h3>{feedback.subject}</h3>
                       <div className="user-details">
-                        <span><strong>From:</strong> {feedback.user?.name || 'Unknown'}</span>
-                        <span>{feedback.user?.email || ''}</span>
+                        <span><strong>From:</strong> {feedback.user?.name || 'Unknown User'}</span>
+                        <span>{feedback.user?.email || 'No email'}</span>
                       </div>
                     </div>
                     <div className="feedback-meta">
@@ -299,7 +299,8 @@ const AdminFeedback = () => {
               
               <div className="modal-feedback-preview">
                 <h4>{selectedFeedback.subject}</h4>
-                <p><strong>From:</strong> {selectedFeedback.user?.name || 'Unknown'}</p>
+                <p><strong>From:</strong> {selectedFeedback.user?.name || 'Unknown User'}</p>
+                <p><strong>Email:</strong> {selectedFeedback.user?.email || 'No email'}</p>
                 <p>{selectedFeedback.message}</p>
               </div>
 

@@ -42,101 +42,12 @@ const AttorneyProfile = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) return;
-    
-    // Check if profile was just updated and clear the flag
-    const profileUpdated = localStorage.getItem('profileUpdated');
-    if (profileUpdated) {
-      localStorage.removeItem('profileUpdated');
-      console.log("🔍 Profile was just updated, forcing refresh...");
-    }
-    
-    // Try to get attorney data from localStorage first
-    const storedAttorneyData = localStorage.getItem('attorneyData');
-    if (storedAttorneyData) {
-      try {
-        const parsedData = JSON.parse(storedAttorneyData);
-        console.log("🔍 Using stored attorney data from localStorage:", parsedData);
-        
-        // Set initial data from localStorage while API fetches complete data
-        const initialAttorney = {
-          attorneyName: parsedData?.name || parsedData?.attorneyName || "",
-          attorneyEmail: parsedData?.email || parsedData?.attorneyEmail || "",
-          attorneyPhone: parsedData?.phone || parsedData?.attorneyPhone || "",
-          attorneyGender: parsedData?.gender || parsedData?.attorneyGender || "",
-          attorneyAddress: parsedData?.address || parsedData?.attorneyAddress || "",
-          attorneyDOB: parsedData?.dateOfBirth || parsedData?.attorneyDOB || parsedData?.dob || "",
-          specialization: parsedData?.specialization || parsedData?.speciality || "",
-          qualification: parsedData?.qualification || "",
-          experience: String(parsedData?.experience ?? ""),
-          fees: String(parsedData?.fees ?? ""),
-          profilePicture: parsedData?.profilePicture || parsedData?.profile_pic || parsedData?.profile_image || parsedData?.photo || parsedData?.image || ""
-        };
-        
-        setAttorney(initialAttorney);
-        setOriginalData(initialAttorney);
-        setFormData({
-          attorneyName: initialAttorney.attorneyName || "",
-          attorneyEmail: initialAttorney.attorneyEmail || "",
-          attorneyPhone: initialAttorney.attorneyPhone || "",
-          attorneyGender: initialAttorney.attorneyGender || "",
-          attorneyAddress: initialAttorney.attorneyAddress || "",
-          attorneyDOB: initialAttorney.attorneyDOB || "",
-          specialization: initialAttorney.specialization || "",
-          qualification: initialAttorney.qualification || "",
-          experience: initialAttorney.experience || "",
-          fees: initialAttorney.fees || ""
-        });
-      } catch (error) {
-        console.error("❌ Error parsing stored attorney data:", error);
-      }
-    }
-    
     const load = async () => {
       try {
-        console.log("🔍 Starting profile data fetch...");
-        
-        // Try multiple endpoints to get attorney data
-        const endpoints = [
-          API.ATTORNEY_DASHBOARD,
-          API.ATTORNEY_DETAILS,
-          `${API.BASE_URL}/attorney/profile`
-        ];
-
-        let data = null;
-        let successfulEndpoint = null;
-
-        for (const endpoint of endpoints) {
-          try {
-            console.log(`🔍 Trying endpoint: ${endpoint}`);
-            const res = await fetch(endpoint, {
-              headers: { 
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json'
-              },
-            });
-
-            if (res.ok) {
-              data = await res.json();
-              successfulEndpoint = endpoint;
-              console.log(`✅ Successfully fetched data from: ${endpoint}`);
-              break;
-            } else {
-              console.log(`❌ Failed to fetch from ${endpoint}: ${res.status}`);
-            }
-          } catch (error) {
-            console.log(`❌ Error fetching from ${endpoint}:`, error.message);
-          }
-        }
-
-        if (!data) {
-          console.error("❌ Failed to fetch data from all endpoints");
-          // Don't show error if we have localStorage data
-          if (!storedAttorneyData) {
-            setMessage("❌ Unable to load profile data. Please try again.");
-          }
-          return;
-        }
-
+        const res = await fetch(API.ATTORNEY_DASHBOARD, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await res.json();
         console.log("🔍 Raw response data:", data);
         console.log("🔍 Attorney object:", data.attorney);
         console.log("🔍 All attorney fields:", Object.keys(data?.attorney || {}));
@@ -148,53 +59,33 @@ const AttorneyProfile = () => {
         console.log("  - profile_image:", data?.attorney?.profile_image);
         console.log("  - photo:", data?.attorney?.photo);
         console.log("  - image:", data?.attorney?.image);
-        console.log("  - name:", data?.attorney?.name);
-        console.log("  - email:", data?.attorney?.email);
-        console.log("  - phone:", data?.attorney?.phone);
-        console.log("  - gender:", data?.attorney?.gender);
-        console.log("  - address:", data?.attorney?.address);
-        console.log("  - dateOfBirth:", data?.attorney?.dateOfBirth);
-        console.log("  - dob:", data?.attorney?.dob);
-        console.log("  - specialization:", data?.attorney?.specialization);
-        console.log("  - qualification:", data?.attorney?.qualification);
-        console.log("  - experience:", data?.attorney?.experience);
-        console.log("  - fees:", data?.attorney?.fees);
-
-        // Check if response indicates force logout
-        if (data.forceLogout || data.deactivated) {
-          console.log("🔍 Force logout required from profile - clearing session");
-          localStorage.removeItem("token");
-          localStorage.removeItem("user");
-          localStorage.removeItem("role");
-          alert("Your account has been deactivated by admin. You have been logged out.");
-          navigate("/login");
-          return;
-        }
-
-        // Check if attorney data exists
-        const attorneyData = data?.attorney || data;
-        if (!attorneyData) {
-          console.error("❌ No attorney data found in response");
-          setMessage("❌ No attorney data available");
-          return;
+        
+        if (!res.ok) {
+          if (data.forceLogout || data.deactivated) {
+            console.log("🔍 Force logout required from profile - clearing session");
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            localStorage.removeItem("role");
+            alert("Your account has been deactivated by admin. You have been logged out.");
+            navigate("/login");
+            return;
+          }
+          throw new Error(data.message || "Failed to load profile");
         }
 
         const updatedAttorney = {
-          attorneyName: attorneyData?.attorneyName || attorneyData?.name || "",
-          attorneyEmail: attorneyData?.attorneyEmail || attorneyData?.email || "",
-          attorneyPhone: attorneyData?.attorneyPhone || attorneyData?.phone || "",
-          attorneyGender: attorneyData?.attorneyGender || attorneyData?.gender || "",
-          attorneyAddress: attorneyData?.attorneyAddress || attorneyData?.address || "",
-          attorneyDOB: attorneyData?.attorneyDOB || attorneyData?.dateOfBirth || attorneyData?.dob || "",
-          specialization: attorneyData?.specialization || attorneyData?.speciality || "",
-          qualification: attorneyData?.qualification || "",
-          experience: String(attorneyData?.experience ?? ""),
-          fees: String(attorneyData?.fees ?? ""),
-          profilePicture: attorneyData?.profilePicture || attorneyData?.profile_pic || attorneyData?.profile_image || attorneyData?.photo || attorneyData?.image || ""
+          attorneyName: data?.attorney?.attorneyName || data?.attorney?.name || "",
+          attorneyEmail: data?.attorney?.attorneyEmail || data?.attorney?.email || "",
+          attorneyPhone: data?.attorney?.attorneyPhone || data?.attorney?.phone || "",
+          attorneyGender: data?.attorney?.attorneyGender || data?.attorney?.gender || "",
+          attorneyAddress: data?.attorney?.attorneyAddress || data?.attorney?.address || "",
+          attorneyDOB: data?.attorney?.attorneyDOB || data?.attorney?.dateOfBirth || "",
+          specialization: data?.attorney?.specialization || "",
+          qualification: data?.attorney?.qualification || "",
+          experience: String(data?.attorney?.experience ?? ""),
+          fees: String(data?.attorney?.fees ?? ""),
+          profilePicture: data?.attorney?.profilePicture || data?.attorney?.profile_pic || data?.attorney?.profile_image || data?.attorney?.photo || ""
         };
-
-        console.log("🔍 Updated attorney state:", updatedAttorney);
-        console.log("🔍 Data fetched from endpoint:", successfulEndpoint);
 
         setAttorney(updatedAttorney);
         setOriginalData(updatedAttorney);
@@ -211,10 +102,9 @@ const AttorneyProfile = () => {
           fees: updatedAttorney.fees || ""
         });
         
-        setMessage("✅ Profile loaded successfully!");
+        console.log("🔍 Updated attorney state:", updatedAttorney);
       } catch (e) {
-        console.error("❌ Profile load error:", e);
-        setMessage("❌ Error loading profile. Please try again.");
+        console.error("Profile load error:", e);
       }
     };
     load();
@@ -590,6 +480,100 @@ const AttorneyProfile = () => {
             </div>
           </div>
 
+          {/* White Profile Card */}
+          {/* <div className="profile-white-card">
+            <div className="white-card-profile-pic">
+              {(() => {
+                const profilePic = attorney.profilePicture;
+                console.log("🔍 Rendering profile picture:", profilePic);
+                
+                if (!profilePic || profilePic === "" || profilePic === "null" || profilePic === null) {
+                  return <div className="no-photo-text">No Photo</div>;
+                }
+                
+                // Try different URL patterns
+                let imageUrl = profilePic;
+                if (!profilePic.startsWith('http')) {
+                  // If URL already has uploads/, don't add it again
+                  if (profilePic.startsWith('uploads/')) {
+                    imageUrl = `http://localhost:5000/${profilePic}`;
+                  } else {
+                    // Try different base URLs
+                    const possibleUrls = [
+                      `http://localhost:5000/${profilePic}`, 
+                      `http://localhost:5000/uploads/${profilePic}`,
+                      `http://localhost:5000/public/${profilePic}`,
+                      `http://localhost:5000/images/${profilePic}`
+                    ];
+                    imageUrl = possibleUrls[0]; // Try first one
+                  }
+                  console.log("🔍 Trying image URL:", imageUrl);
+                }
+                
+                return (
+                  <>
+                    <img 
+                      src={imageUrl} 
+                      alt="Profile" 
+                      className="white-card-profile-img"
+                      onLoad={() => console.log("🔍 Image loaded successfully:", imageUrl)}
+                      onError={(e) => {
+                        console.log("🔍 Image load failed for:", imageUrl);
+                        // Try next URL if available
+                        if (!profilePic.startsWith('http')) {
+                          const fallbackUrls = [];
+                          
+                          // If original had uploads/, try without it
+                          if (profilePic.startsWith('uploads/')) {
+                            fallbackUrls.push(`http://localhost:5000/${profilePic.replace('uploads/', '')}`);
+                          } else {
+                            fallbackUrls.push(`http://localhost:5000/uploads/${profilePic}`);
+                            fallbackUrls.push(`http://localhost:5000/public/${profilePic}`);
+                            fallbackUrls.push(`http://localhost:5000/images/${profilePic}`);
+                          }
+                          
+                          let currentUrl = imageUrl;
+                          let nextUrlIndex = fallbackUrls.findIndex(url => url === currentUrl) + 1;
+                          
+                          if (nextUrlIndex < fallbackUrls.length) {
+                            e.target.src = fallbackUrls[nextUrlIndex];
+                            console.log("🔍 Trying fallback URL:", fallbackUrls[nextUrlIndex]);
+                          } else {
+                            console.log("🔍 All URLs failed, showing No Photo");
+                            e.target.style.display = 'none';
+                            e.target.nextElementSibling.style.display = 'flex';
+                          }
+                        } else {
+                          e.target.style.display = 'none';
+                          e.target.nextElementSibling.style.display = 'flex';
+                        }
+                      }}
+                    />
+                    <div className="no-photo-text" style={{display: 'none'}}>
+                      No Photo
+                    </div>
+                  </>
+                );
+              })()}
+            </div>
+            
+            <div className="white-card-profile-details">
+              <h2 className="white-card-name">{attorney.attorneyName || "Not provided"}</h2>
+              <p className="white-card-specialization">{attorney.specialization || "Not specified"}</p>
+              <p className="white-card-qualification">{attorney.qualification || "Not provided"}</p>
+              
+              <div className="white-card-rating">
+                <span className="star">★</span>
+                <span>4.5</span>
+              </div>
+              
+              <p className="white-card-experience">{attorney.experience ? `${attorney.experience} years experience` : "0 years experience"}</p>
+              <p className="white-card-fees">₹{attorney.fees || "100"} consultation fee</p>
+              
+              <button className="white-card-book-btn">Book Consultation</button>
+            </div>
+          </div> */}
+
           {/* Information Cards */}
           <div className="info-cards-wrapper">
             {/* Personal Information Card */}
@@ -750,7 +734,7 @@ const AttorneyProfile = () => {
                       className="input-custom"
                     />
                   ) : (
-                    <span className="value-custom">{attorney.fees ? `$${attorney.fees}` : "Not provided"}</span>
+                    <span className="value-custom">{attorney.fees ? `₹${attorney.fees}` : "Not provided"}</span>
                   )}
                 </div>
               </div>

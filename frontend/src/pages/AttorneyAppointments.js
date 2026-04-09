@@ -199,7 +199,7 @@ const AttorneyAppointments = () => {
                         onClick={() => setViewAppointment(appt)}
                         title="View Details"
                       >
-                        👁️ View
+                         View
                       </button>
                       <button 
                         className="btn-delete"
@@ -207,7 +207,7 @@ const AttorneyAppointments = () => {
                         disabled={actionLoading.deleting === appt.id}
                         title="Delete Appointment"
                       >
-                        🗑️ Delete
+                         Delete
                       </button>
                     </div>
                   </td>

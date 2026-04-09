@@ -1,15 +1,16 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { FaBalanceScale } from "react-icons/fa";
+import { FaBalanceScale, FaHome, FaTachometerAlt, FaUserCircle, FaCalendarAlt, FaFlask, FaComments, FaCommentDots, FaSignOutAlt } from "react-icons/fa";
 import "./patientSidebar.css";
+import { useAuth } from "../context/AuthContext";
 
 const ClientSidebar = () => {
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const handleLogout = () => {
     if (window.confirm("Are you sure you want to logout?")) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
+      logout();
       navigate("/");
     }
   };
@@ -33,7 +34,7 @@ const ClientSidebar = () => {
               to="/" 
               className={({ isActive }) => isActive ? "active" : ""}
             >
-              Home
+              <FaHome className="menu-icon" /> Home
             </NavLink>
           </li>
           <li>
@@ -41,7 +42,7 @@ const ClientSidebar = () => {
               to="/client/dashboard" 
               className={({ isActive }) => isActive ? "active" : ""}
             >
-              Dashboard
+              <FaTachometerAlt className="menu-icon" /> Dashboard
             </NavLink>
           </li>
           <li>
@@ -49,7 +50,7 @@ const ClientSidebar = () => {
               to="/client/profile" 
               className={({ isActive }) => isActive ? "active" : ""}
             >
-              Profile
+              <FaUserCircle className="menu-icon" /> Profile
             </NavLink>
           </li>
           <li>
@@ -57,23 +58,23 @@ const ClientSidebar = () => {
               to="/client/appointments" 
               className={({ isActive }) => isActive ? "active" : ""}
             >
-              Appointments
+              <FaCalendarAlt className="menu-icon" /> Appointments
             </NavLink>
           </li>
-          <li>
+          <li className="hidden-item">
             <NavLink 
               to="/client/lab-tests" 
               className={({ isActive }) => isActive ? "active" : ""}
             >
-              Lab Tests
+              <FaFlask className="menu-icon" /> Lab Tests
             </NavLink>
           </li>
-          <li>
+          <li className="hidden-item">
             <NavLink 
               to="/client/consultation" 
               className={({ isActive }) => isActive ? "active" : ""}
             >
-              Online Consultation
+              <FaComments className="menu-icon" /> Online Consultation
             </NavLink>
           </li>
           <li>
@@ -81,12 +82,12 @@ const ClientSidebar = () => {
               to="/client/feedback" 
               className={({ isActive }) => isActive ? "active" : ""}
             >
-              Feedback
+              <FaCommentDots className="menu-icon" /> Feedback
             </NavLink>
           </li>
         </ul>
 
-        <button className="logout-btn" onClick={handleLogout}>Logout</button>
+        <button className="logout-btn" onClick={handleLogout}><FaSignOutAlt className="menu-icon" /> Logout</button>
       </div>
     </div>
   );

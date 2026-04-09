@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaBalanceScale } from 'react-icons/fa';
+import { FaBalanceScale, FaTachometerAlt, FaCalendarAlt, FaUsers, FaUserTie, FaCogs, FaFlask, FaComments, FaCommentDots, FaSignOutAlt } from 'react-icons/fa';
 import './adminSidebar.css';
 
 const AdminSidebar = () => {
@@ -32,15 +32,15 @@ const AdminSidebar = () => {
         <h3 className="panel-text">Admin Panel</h3>
       </div>
       <ul className="menu">
-        <li><Link to="/admin/dashboard">Dashboard</Link></li>
-        <li><Link to="/admin/appointments">Appointments</Link></li>
-        <li><Link to="/admin/users">Clients</Link></li>
-        <li><Link to="/admin/doctors">Attorneys</Link></li>
-        <li><Link to="/admin/services">Services</Link></li>
-        <li className="hidden-item"><Link to="/admin/lab-test-bookings">Lab Test Bookings</Link></li>
-        <li className="hidden-item"><Link to="/admin/consultations">Consultations</Link></li>
-        <li><Link to="/admin/feedback">Feedback</Link></li>
-        <li><button onClick={handleLogout} className="logout-btn">Logout</button></li>
+        <li><Link to="/admin/dashboard"><FaTachometerAlt className="menu-icon" /> Dashboard</Link></li>
+        <li><Link to="/admin/appointments"><FaCalendarAlt className="menu-icon" /> Appointments</Link></li>
+        <li><Link to="/admin/users"><FaUsers className="menu-icon" /> Clients</Link></li>
+        <li><Link to="/admin/doctors"><FaUserTie className="menu-icon" /> Attorneys</Link></li>
+        <li><Link to="/admin/services"><FaCogs className="menu-icon" /> Services</Link></li>
+        <li className="hidden-item"><Link to="/admin/lab-test-bookings"><FaFlask className="menu-icon" /> Lab Test Bookings</Link></li>
+        <li className="hidden-item"><Link to="/admin/consultations"><FaComments className="menu-icon" /> Consultations</Link></li>
+        <li><Link to="/admin/feedback"><FaCommentDots className="menu-icon" /> Feedback</Link></li>
+        <li><button onClick={handleLogout} className="logout-btn"><FaSignOutAlt className="menu-icon" /> Logout</button></li>
       </ul>
     </div>
   );

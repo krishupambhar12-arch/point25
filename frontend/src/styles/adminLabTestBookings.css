@@ -78,7 +78,7 @@
 
 /* Status Select */
 .status-select {
-  padding: 5px 10px;
+  padding: 11px 10px;
   border-radius: 4px;
   border: none;
   font-size: 13px;
@@ -86,7 +86,7 @@
   cursor: pointer;
   color: rgb(0, 0, 0);
   box-shadow: #040404;
-
+  background-color: #e0dede;
 }
 
 .status-select:disabled {
@@ -149,7 +149,9 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .message {
@@ -195,15 +197,15 @@
   .bookings-table {
     overflow-x: auto;
   }
-  
+
   .bookings-table table {
     min-width: 800px;
   }
-  
+
   .dashboard-content {
     padding: 10px;
   }
-  
+
   .admin-lab-test-bookings {
     padding: 10px;
   }

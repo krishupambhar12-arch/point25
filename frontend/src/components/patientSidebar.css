@@ -124,3 +124,7 @@
 .patient-sidebar .logout-btn:hover {
   background: var(--color-primary);
 }
+
+.patient-sidebar .hidden-item {
+  display: none;
+}

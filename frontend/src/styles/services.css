@@ -2,7 +2,7 @@
 .services-page {
   min-height: 80vh;
   padding: 40px 20px;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  background: #8A7699;
 }
 
 .services-header {
@@ -11,14 +11,14 @@
 }
 
 .services-header h1 {
-  color: #333;
+  color: #fcfcfc;
   font-size: 36px;
   margin-bottom: 12px;
   font-weight: 700;
 }
 
 .services-header p {
-  color: #666;
+  color: #fffdfd;
   font-size: 18px;
   margin: 0;
 }
@@ -52,26 +52,250 @@
   font-size: 16px;
   background: white;
   cursor: pointer;
-  transition: border-color 0.3s;
 }
 
-.category-filter select:focus {
-  outline: none;
-  border-color: #007bff;
+.services {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.service-card {
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.service-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+.service-icon {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.service-card h3 {
+  color: #333;
+  font-size: 22px;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.service-card p {
+  color: #666;
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  min-height: 50px;
 }
 
 .service-category {
-  background: #e7f3ff;
-  color: #0056b3;
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 500;
-  margin: 8px 0;
   display: inline-block;
+  background: #7b638d;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  margin-bottom: 20px;
+  font-weight: 500;
 }
 
-/* Services Section - 4 Boxes per Row, Multiple Rows */
+.book-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.book-btn:hover {
+  background: #218838;
+}
+
+/* Service Modal Styles */
+.service-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.service-modal-content {
+  background: white;
+  border-radius: 16px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  animation: slideUp 0.3s ease;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.service-modal-header {
+  position: sticky;
+  top: 0;
+  background: white;
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: flex-end;
+  z-index: 10;
+}
+
+.service-modal-close {
+  background: #f8f9fa;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+
+.service-modal-close:hover {
+  background: #e9ecef;
+}
+
+.service-modal-body {
+  padding: 40px 30px;
+  text-align: center;
+}
+
+.service-modal-icon {
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: center;
+}
+
+.service-modal-body h2 {
+  color: #333;
+  font-size: 28px;
+  margin-bottom: 10px;
+  font-weight: 700;
+  margin-top: 1px;
+}
+
+.service-modal-category {
+  display: inline-block;
+  background: #7b638d;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  margin-bottom: 25px;
+  font-weight: 500;
+}
+
+.service-modal-description {
+  color: #666;
+  font-size: 18px;
+  line-height: 1.8;
+  margin-bottom: 35px;
+  text-align: left;
+}
+
+.service-modal-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.close-modal-btn {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.close-modal-btn:hover {
+  background: #5a6268;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .services {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .service-modal-content {
+    width: 95%;
+    margin: 20px;
+  }
+  
+  .service-modal-body {
+    padding: 30px 20px;
+  }
+  
+  .service-modal-body h2 {
+    font-size: 24px;
+  }
+  
+  .service-modal-description {
+    font-size: 16px;
+  }
+  
+  .service-modal-actions {
+    flex-direction: column;
+  }
+  
+  .book-btn, .close-modal-btn {
+    width: 100%;
+  }
+}
 .services {
   display: flex;
   justify-content: center;

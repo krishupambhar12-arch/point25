@@ -37,7 +37,7 @@
 }
 
 .doctors-table th {
-  background-color: var(--color-lightest);
+  
   font-weight: 600;
   color: var(--color-darkest);
   border-bottom: 2px solid #dee2e6;

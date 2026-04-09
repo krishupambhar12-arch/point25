@@ -10,6 +10,9 @@ const Disclaimer = () => {
       <div className="disclaimer-container">
         <div className="disclaimer-content">
           <h1>Disclaimer</h1>
+          
+         
+          
           <div className="disclaimer-section">
             <h2>1. Legal Information</h2>
             <p>The information provided by Justice Point is for general informational purposes only. All information on the website is provided in good faith, however we make no representation or warranty of any kind, express or implied, regarding the accuracy, adequacy, validity, reliability, availability or completeness of any information on the website.</p>
@@ -24,7 +27,7 @@ const Disclaimer = () => {
           </div>
           <div className="disclaimer-section">
             <h2>4. Accuracy of Information</h2>
-            <p>We strive to provide accurate and up-to-date information, but we make no representations or warranties of any kind about the completeness, accuracy, or reliability of the information contained on this website. Laws and regulations change frequently, and the information may not reflect current legal requirements.</p>
+            <p>We strive to provide accurate and up-to-date information, but we make no representations or warranties of any kind about the completeness, accuracy, or reliability of the information contained on our website. Laws and regulations change frequently, and the information may not reflect current legal requirements.</p>
           </div>
           <div className="disclaimer-section">
             <h2>5. Third-Party Links</h2>
@@ -53,6 +56,63 @@ const Disclaimer = () => {
           <div className="disclaimer-section">
             <h2>11. Contact Information</h2>
             <p>If you have any questions about this disclaimer, please contact us at justicepoint@gmail.com or +86 21 2412 6000.</p>
+          </div>
+
+
+           {/* Legal Practice Areas Section */}
+          <div className="disclaimer-section legal-areas">
+            <h2>Legal Practice Areas</h2>
+            <div className="legal-areas-grid">
+              <div className="legal-area-card">
+                <h3>Family Law & Divorce</h3>
+                <p>Comprehensive legal services for matrimonial disputes, divorce proceedings, child custody matters, alimony and maintenance cases. Expertise in Hindu Marriage Act, Special Marriage Act, and Guardianship laws.</p>
+              </div>
+              
+              <div className="legal-area-card">
+                <h3>Child Custody & Guardianship</h3>
+                <p>Legal representation for child custody battles, visitation rights, and guardianship matters. Focus on child welfare as paramount consideration, with expertise in both physical and joint custody arrangements.</p>
+              </div>
+              
+              <div className="legal-area-card">
+                <h3>Consumer Protection Law</h3>
+                <p>Assistance with consumer complaints, product liability issues, service disputes, and compensation claims. Expert guidance on filing complaints in consumer forums and navigating consumer protection laws.</p>
+              </div>
+              
+              <div className="legal-area-card">
+                <h3>Criminal Law & Defense</h3>
+                <p>Legal representation for criminal cases, bail applications, anticipatory bail, and defense against false charges. Expertise in criminal procedure, rights of accused, and police arrest procedures.</p>
+              </div>
+              
+              <div className="legal-area-card">
+                <h3>Property Registration & Real Estate</h3>
+                <p>Complete legal services for property registration, title verification, documentation, and real estate transactions. Expertise in Registration Act, stamp duty, and property transfer procedures.</p>
+              </div>
+              
+              <div className="legal-area-card">
+                <h3>Corporate Law & Business</h3>
+                <p>Legal services for business formation, corporate compliance, contract drafting, mergers & acquisitions, and commercial disputes. Expertise in company law and business regulations.</p>
+              </div>
+              
+              <div className="legal-area-card">
+                <h3>Civil Litigation</h3>
+                <p>Representation in civil suits, property disputes, contract enforcement, and recovery matters. Expertise in civil procedure, evidence law, and civil remedies.</p>
+              </div>
+              
+              <div className="legal-area-card">
+                <h3>Labor & Employment Law</h3>
+                <p>Legal services for employment disputes, wrongful termination, workplace harassment, labor compliance, and industrial relations. Expertise in labor laws and employee rights.</p>
+              </div>
+              
+              <div className="legal-area-card">
+                <h3>Taxation Law</h3>
+                <p>Advisory and representation for tax matters, GST compliance, income tax disputes, and tax planning. Expertise in direct and indirect tax laws and tribunal proceedings.</p>
+              </div>
+              
+              <div className="legal-area-card">
+                <h3>Intellectual Property</h3>
+                <p>Protection of intellectual property rights, trademark registration, patent filing, copyright issues, and IP infringement matters. Expertise in IP laws and enforcement.</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

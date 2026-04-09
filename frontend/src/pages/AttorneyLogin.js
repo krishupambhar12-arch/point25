@@ -54,9 +54,6 @@ const AttorneyLogin = () => {
         localStorage.setItem("name", data.attorney.name);
         localStorage.setItem("attorneyId", data.attorney.id);
         
-        // Store complete attorney data for profile use
-        localStorage.setItem("attorneyData", JSON.stringify(data.attorney));
-        
         console.log("🔍 Stored in localStorage:", {
           token: data.token.substring(0, 20) + "...",
           role: "Attorney",
@@ -64,11 +61,6 @@ const AttorneyLogin = () => {
           name: data.attorney.name,
           attorneyId: data.attorney.id
         });
-        
-        console.log("🔍 Attorney data stored:", data.attorney);
-        
-        // Ensure attorney record exists in attorney table
-        await ensureAttorneyRecord(data.attorney);
         
         setMessage("✅ Login successful! Redirecting to attorney panel...");
         
@@ -95,68 +87,6 @@ const AttorneyLogin = () => {
       setMessage("❌ Network error. Please check your connection and try again.");
     } finally {
       setLoading(false);
-    }
-  };
-
-  // Function to ensure attorney record exists in attorney table
-  const ensureAttorneyRecord = async (attorneyData) => {
-    try {
-      console.log("🔍 Ensuring attorney record exists in database...");
-      
-      // Check if attorney record exists by trying to fetch it
-      const token = localStorage.getItem("token");
-      const checkResponse = await fetch(`${API.BASE_URL}/attorney/check-record`, {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          email: attorneyData.email,
-          attorneyId: attorneyData.id
-        })
-      });
-
-      const checkResult = await checkResponse.json();
-      console.log("🔍 Attorney record check result:", checkResult);
-
-      if (!checkResult.exists) {
-        console.log("🔍 Attorney record not found, creating it...");
-        
-        // Create attorney record in attorney table
-        const createResponse = await fetch(`${API.BASE_URL}/attorney/create-record`, {
-          method: "POST",
-          headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            attorneyId: attorneyData.id,
-            name: attorneyData.name,
-            email: attorneyData.email,
-            phone: attorneyData.phone || "",
-            gender: attorneyData.gender || "",
-            qualification: attorneyData.qualification || "",
-            joiningDate: attorneyData.joiningDate || new Date().toISOString().split('T')[0],
-            attorneyCode: attorneyData.attorneyCode || "",
-            role: "Attorney"
-          })
-        });
-
-        const createResult = await createResponse.json();
-        console.log("🔍 Attorney record creation result:", createResult);
-
-        if (createResponse.ok) {
-          console.log("✅ Attorney record created successfully in database");
-        } else {
-          console.error("❌ Failed to create attorney record:", createResult.message);
-        }
-      } else {
-        console.log("✅ Attorney record already exists in database");
-      }
-    } catch (error) {
-      console.error("❌ Error ensuring attorney record:", error);
-      // Don't fail the login process, just log the error
     }
   };
 

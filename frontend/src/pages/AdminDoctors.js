@@ -3,7 +3,7 @@ import { API } from '../config/api';
 import AdminSidebar from '../components/AdminSidebar';
 import '../styles/adminDashboard.css';
 import '../styles/adminDoctors.css';
-import '../styles/adminNoData.css';
+import '../styles/attorneyProfile.css';
 
 const AdminDoctors = () => {
   const [doctors, setDoctors] = useState([]);
@@ -12,6 +12,15 @@ const AdminDoctors = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
   const [showAllDetailsModal, setShowAllDetailsModal] = useState(false);
+  const [attorneyFullProfile, setAttorneyFullProfile] = useState(null);
+  const [loadingProfile, setLoadingProfile] = useState(false);
+  const [showProfileUpdate, setShowProfileUpdate] = useState(false);
+  const [profileUpdateData, setProfileUpdateData] = useState({
+    profilePhoto: '',
+    specialization: '',
+    experience: '',
+    consultationFee: ''
+  });
   const [editingDoctor, setEditingDoctor] = useState(null);
   const [viewingDoctor, setViewingDoctor] = useState(null);
   const [actionLoading, setActionLoading] = useState({
@@ -76,8 +85,6 @@ const AdminDoctors = () => {
         return;
       }
       
-      console.log("🔍 Fetching attorney data from database...");
-      
       // Fetch from both codes and attorney collections to get all attorneys
       const [codesResponse, attorneysResponse] = await Promise.all([
         fetch(API.ADMIN_CODES, {
@@ -97,28 +104,13 @@ const AdminDoctors = () => {
       const codesData = await codesResponse.json();
       const attorneysData = await attorneysResponse.json();
       
-      console.log("🔍 Codes response:", codesResponse.status, codesData);
-      console.log("🔍 Attorneys response:", attorneysResponse.status, attorneysData);
-      
       if (codesResponse.ok && attorneysResponse.ok) {
-        // Check if both collections are empty
-        const codesArray = codesData.codes || [];
-        const attorneysArray = attorneysData.doctors || [];
-        
-        if (codesArray.length === 0 && attorneysArray.length === 0) {
-          console.log("🔍 No attorney data found in database");
-          setDoctors([]);
-          setMessage('No attorney data found in database. Please add attorneys first.');
-          setLoading(false);
-          return;
-        }
-        
         // Combine data from both collections
         const allAttorneys = [];
         
         // Add attorneys from codes collection
-        if (codesArray.length > 0) {
-          codesArray.forEach(attorney => {
+        if (codesData.codes && Array.isArray(codesData.codes)) {
+          codesData.codes.forEach(attorney => {
             allAttorneys.push({
               ...attorney,
               source: 'codes'
@@ -127,8 +119,8 @@ const AdminDoctors = () => {
         }
         
         // Add attorneys from doctors collection
-        if (attorneysArray.length > 0) {
-          attorneysArray.forEach(attorney => {
+        if (attorneysData.doctors && Array.isArray(attorneysData.doctors)) {
+          attorneysData.doctors.forEach(attorney => {
             // Check if this attorney is already in the list
             const existingIndex = allAttorneys.findIndex(a => a.email === attorney.email);
             if (existingIndex === -1) {
@@ -140,28 +132,19 @@ const AdminDoctors = () => {
           });
         }
         
-        if (allAttorneys.length === 0) {
-          console.log("🔍 No valid attorney data after combining");
-          setDoctors([]);
-          setMessage('No attorney data found in database. Please add attorneys first.');
-        } else {
-          setDoctors(allAttorneys);
-          console.log("🔍 All attorneys loaded:", allAttorneys);
-          console.log("🔍 Attorneys from codes:", codesArray);
-          console.log("🔍 Attorneys from doctors:", attorneysArray);
-          setMessage('');
-        }
+        setDoctors(allAttorneys);
+        console.log("🔍 All attorneys loaded:", allAttorneys);
+        console.log("🔍 Attorneys from codes:", codesData.codes);
+        console.log("🔍 Attorneys from doctors:", attorneysData.doctors);
       } else {
         const errorMessage = codesData.message || attorneysData.message || 'Error fetching attorneys';
-        console.error("🔍 API Error:", errorMessage);
         setMessage(errorMessage);
       }
     } catch (error) {
-      console.error("🔍 Fetch error:", error);
-      setMessage('Error connecting to server. Please check your connection.');
-    } finally {
-      setLoading(false);
+      setMessage('Error connecting to server');
+      console.error("Fetch error:", error);
     }
+    setLoading(false);
   }, [token, role]);
 
   const validateForm = () => {
@@ -368,109 +351,52 @@ const AdminDoctors = () => {
   };
 
   const handleDeleteDoctor = async (doctorId) => {
-    console.log("🔍 Delete button clicked for attorney ID:", doctorId);
-    console.log("🔍 Current doctors list:", doctors);
-    
     // Check if user is authenticated as admin
     if (!token) {
-      console.log("❌ No token found");
       setMessage('Please login first');
       return;
     }
     
     if (role !== 'Admin') {
-      console.log("❌ Not admin role:", role);
       setMessage('Access denied. Admin privileges required.');
       return;
     }
     
-    const doctor = doctors.find(d => d.id === doctorId);
-    const doctorName = doctor?.name || 'this attorney';
-    console.log("🔍 Found doctor to delete:", doctor);
+    const doctorName = doctors.find(d => d.id === doctorId)?.name || 'this attorney';
     
     if (window.confirm(`Are you sure you want to delete ${doctorName}? This action cannot be undone.`)) {
-      console.log("🔍 User confirmed deletion");
       setActionLoading(prev => ({ ...prev, deleting: doctorId }));
-      
       try {
-        console.log("🔍 Starting delete process...");
         console.log("🔍 Frontend Delete Debug - Deleting attorney ID:", doctorId);
         console.log("🔍 Frontend Delete Debug - Token:", token ? token.substring(0, 20) + "..." : "null");
+        console.log("🔍 Frontend Delete Debug - API URL:", `${API.ADMIN_CODES}/${doctorId}`);
         
-        // Try multiple delete endpoints
-        const deleteEndpoints = [
-          `${API.ADMIN_CODES}/${doctorId}`,  // /admin/codes/{id}
-          `${API.ADMIN_DOCTORS}/${doctorId}`, // /admin/doctors/{id}
-          `http://localhost:5000/admin/codes/${doctorId}`, // Full URL
-          `http://localhost:5000/admin/doctors/${doctorId}`  // Full URL for doctors
-        ];
-        
-        let deleteSuccess = false;
-        let lastError = null;
-        
-        for (const endpoint of deleteEndpoints) {
-          try {
-            console.log(`🔍 Trying delete endpoint: ${endpoint}`);
-            
-            const response = await fetch(endpoint, {
-              method: 'DELETE',
-              headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-              }
-            });
-
-            console.log(`🔍 Response status for ${endpoint}:`, response.status);
-            console.log(`🔍 Response ok for ${endpoint}:`, response.ok);
-
-            if (response.ok) {
-              try {
-                const data = await response.json();
-                console.log(`✅ Delete successful from ${endpoint}:`, data);
-                setMessage(`Attorney "${doctorName}" deleted successfully. Login access has been revoked.`);
-                deleteSuccess = true;
-                fetchDoctors();
-                break;
-              } catch (jsonError) {
-                console.log(`⚠️ Response was not JSON, but status was ok for ${endpoint}`);
-                // Sometimes successful deletes don't return JSON, just status 200
-                setMessage(`Attorney "${doctorName}" deleted successfully. Login access has been revoked.`);
-                deleteSuccess = true;
-                fetchDoctors();
-                break;
-              }
-            } else {
-              // Handle non-JSON responses (like 404 HTML pages)
-              const responseText = await response.text();
-              console.log(`❌ Delete failed from ${endpoint}. Response:`, responseText.substring(0, 200));
-              
-              if (responseText.includes('<!DOCTYPE')) {
-                lastError = `Endpoint ${endpoint} not found (404)`;
-              } else if (responseText.includes('500')) {
-                lastError = `Server error at ${endpoint}`;
-              } else {
-                lastError = `Failed to delete from ${endpoint} (Status: ${response.status})`;
-              }
-            }
-          } catch (error) {
-            console.log(`❌ Error with ${endpoint}:`, error.message);
-            lastError = error.message;
+        const response = await fetch(`${API.ADMIN_CODES}/${doctorId}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
           }
-        }
+        });
+
+        console.log("🔍 Frontend Delete Debug - Response status:", response.status);
+        console.log("🔍 Frontend Delete Debug - Response ok:", response.ok);
+
+        const data = await response.json();
+        console.log("🔍 Frontend Delete Debug - Response data:", data);
         
-        if (!deleteSuccess) {
-          console.log("❌ All delete endpoints failed");
-          setMessage(lastError || 'Error deleting attorney. Please check the server.');
+        if (response.ok) {
+          setMessage(`Attorney "${doctorName}" deleted successfully. Login access has been revoked.`);
+          fetchDoctors();
+        } else {
+          setMessage(data.message || 'Error deleting attorney');
         }
-        
       } catch (error) {
-        console.error("❌ Delete process error:", error);
+        console.error("❌ Delete error:", error);
         setMessage('Error connecting to server');
       } finally {
         setActionLoading(prev => ({ ...prev, deleting: null }));
       }
-    } else {
-      console.log("🔍 User cancelled deletion");
     }
   };
 
@@ -498,8 +424,36 @@ const AdminDoctors = () => {
     setViewingDoctor(null);
   };
 
-  const handleShowAllDetails = () => {
-    setShowAllDetailsModal(true);
+  const handleShowAllDetails = async () => {
+    if (!viewingDoctor) return;
+    
+    setLoadingProfile(true);
+    try {
+      // Fetch complete attorney profile from backend
+      const response = await fetch(`${API.ADMIN_DOCTORS}/${viewingDoctor.email}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setAttorneyFullProfile(data.attorney || data.doctor || viewingDoctor);
+        setShowAllDetailsModal(true);
+      } else {
+        // If API fails, use the viewingDoctor data as fallback
+        setAttorneyFullProfile(viewingDoctor);
+        setShowAllDetailsModal(true);
+      }
+    } catch (error) {
+      console.error('Error fetching attorney profile:', error);
+      // Use viewingDoctor as fallback
+      setAttorneyFullProfile(viewingDoctor);
+      setShowAllDetailsModal(true);
+    } finally {
+      setLoadingProfile(false);
+    }
   };
 
   const handleReAuth = () => {
@@ -512,6 +466,80 @@ const AdminDoctors = () => {
 
   const handleCloseAllDetailsModal = () => {
     setShowAllDetailsModal(false);
+    setAttorneyFullProfile(null);
+  };
+
+  const handleProfileUpdateChange = (e) => {
+    setProfileUpdateData({
+      ...profileUpdateData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleProfilePhotoUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfileUpdateData({
+          ...profileUpdateData,
+          profilePhoto: reader.result
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleProfileUpdateSubmit = async (e) => {
+    e.preventDefault();
+    setActionLoading(prev => ({ ...prev, updating: true }));
+    
+    try {
+      const response = await fetch(`${API.ADMIN_DOCTORS}/${attorneyFullProfile._id}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          specialization: profileUpdateData.specialization,
+          experience: profileUpdateData.experience,
+          consultationFee: profileUpdateData.consultationFee,
+          profilePhoto: profileUpdateData.profilePhoto
+        })
+      });
+
+      const responseData = await response.json();
+      
+      if (response.ok) {
+        setMessage('Profile updated successfully');
+        setShowProfileUpdate(false);
+        setProfileUpdateData({
+          profilePhoto: '',
+          specialization: '',
+          experience: '',
+          consultationFee: ''
+        });
+        
+        // Update the attorney full profile with new data
+        setAttorneyFullProfile({
+          ...attorneyFullProfile,
+          specialization: profileUpdateData.specialization,
+          experience: profileUpdateData.experience,
+          consultationFee: profileUpdateData.consultationFee,
+          profilePhoto: profileUpdateData.profilePhoto
+        });
+        
+        // Refresh the attorneys list
+        fetchDoctors();
+      } else {
+        setMessage(responseData.message || 'Error updating profile');
+      }
+    } catch (error) {
+      setMessage('Error connecting to server');
+    } finally {
+      setActionLoading(prev => ({ ...prev, updating: false }));
+    }
   };
 
   return (
@@ -572,13 +600,7 @@ const AdminDoctors = () => {
                       <td>{doctor.joiningDate ? new Date(doctor.joiningDate).toLocaleDateString() : "N/A"}</td>
                       <td>{doctor.attorneyCode || "N/A"}</td>
                       <td>
-                        <button
-                          onClick={() => handleViewDoctor(doctor)}
-                          className="btn btn-view"
-                          disabled={actionLoading.deleting === doctor.id}
-                        >
-                          View
-                        </button>
+                       
                         <button
                           onClick={() => handleEditDoctor(doctor)}
                           className="btn btn-edit"
@@ -587,11 +609,7 @@ const AdminDoctors = () => {
                           Edit
                         </button>
                         <button
-                          onClick={() => {
-                            console.log("🔍 Delete button clicked!");
-                            console.log("🔍 Attorney data:", doctor);
-                            handleDeleteDoctor(doctor.id);
-                          }}
+                          onClick={() => handleDeleteDoctor(doctor.id)}
                           className="btn btn-delete"
                           disabled={actionLoading.deleting === doctor.id}
                         >
@@ -606,20 +624,7 @@ const AdminDoctors = () => {
           ) : (
             !loading && (
               <div className="no-data">
-                <div className="no-data-content">
-                  <h3>📋 No Attorney Data Found</h3>
-                  <p>There are currently no attorneys in the database.</p>
-                  <p>Please click the "Add Attorney" button to create the first attorney record.</p>
-                  <div className="no-data-steps">
-                    <h4>📝 To get started:</h4>
-                    <ol>
-                      <li>Click "Add Attorney" button above</li>
-                      <li>Fill in the attorney details</li>
-                      <li>The attorney will be added to both codes and attorney tables</li>
-                      <li>Attorneys can then login and manage their profiles</li>
-                    </ol>
-                  </div>
-                </div>
+                <p>No attorneys found. Click "Add Attorney" to create one.</p>
               </div>
             )
           )}
@@ -826,59 +831,126 @@ const AdminDoctors = () => {
                 >
                   Close
                 </button>
-                <button
-                  type="button"
-                  onClick={handleShowAllDetails}
-                  className="btn btn-all-details"
-                >
-                  All Detail
-                </button>
               </div>
             </div>
           </div>
         )}
 
         {/* All Details Modal */}
-        {showAllDetailsModal && (
+        {showAllDetailsModal && attorneyFullProfile && (
           <div className="modal-overlay" onClick={handleCloseAllDetailsModal}>
             <div className="modal-content all-details-modal" onClick={(e) => e.stopPropagation()}>
               <div className="modal-header">
-                <h3>All Attorney Details</h3>
+                <h3>Complete Attorney Profile: {attorneyFullProfile.name}</h3>
                 <button className="modal-close" onClick={handleCloseAllDetailsModal}>×</button>
               </div>
               <div className="all-details-content">
-                {doctors && doctors.length > 0 ? (
-                  <div className="all-details-table">
-                    <table>
-                      <thead>
-                        <tr>
-                          <th>Name</th>
-                          <th>Email</th>
-                          <th>Phone</th>
-                          <th>Gender</th>
-                          <th>Qualification</th>
-                          <th>Joining Date</th>
-                          <th>Attorney Code</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {doctors.map(doctor => (
-                          <tr key={doctor.id}>
-                            <td>{doctor.name}</td>
-                            <td>{doctor.email}</td>
-                            <td>{doctor.phone}</td>
-                            <td>{doctor.gender}</td>
-                            <td>{doctor.qualification}</td>
-                            <td>{doctor.joiningDate}</td>
-                            <td>{doctor.attorneyCode}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+                {loadingProfile ? (
+                  <div className="loading">Loading complete profile...</div>
                 ) : (
-                  <div className="no-data">
-                    <p>No attorneys found. Please add some attorneys first.</p>
+                  <div className="attorney-full-profile">
+                    {/* Profile Photo */}
+                    <div className="profile-section">
+                      <h4>Profile Photo</h4>
+                      <div className="profile-photo-container">
+                        {attorneyFullProfile.profilePhoto ? (
+                          <img 
+                            src={attorneyFullProfile.profilePhoto} 
+                            alt={`${attorneyFullProfile.name}'s Profile`}
+                            className="profile-photo"
+                          />
+                        ) : (
+                          <div className="profile-photo-placeholder">
+                            <span>No Profile Photo</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Personal Information */}
+                    <div className="profile-section">
+                      <h4>Personal Information</h4>
+                      <div className="profile-grid">
+                        <div className="profile-item">
+                          <label>Full Name:</label>
+                          <span>{attorneyFullProfile.name || 'N/A'}</span>
+                        </div>
+                        <div className="profile-item">
+                          <label>Email:</label>
+                          <span>{attorneyFullProfile.email || 'N/A'}</span>
+                        </div>
+                        <div className="profile-item">
+                          <label>Phone:</label>
+                          <span>{attorneyFullProfile.phone || 'N/A'}</span>
+                        </div>
+                        <div className="profile-item">
+                          <label>Gender:</label>
+                          <span>{attorneyFullProfile.gender || 'N/A'}</span>
+                        </div>
+                        <div className="profile-item">
+                          <label>Date of Birth:</label>
+                          <span>{attorneyFullProfile.dateOfBirth || 'N/A'}</span>
+                        </div>
+                        <div className="profile-item">
+                          <label>Age:</label>
+                          <span>{attorneyFullProfile.age || 'N/A'}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Professional Information */}
+                    <div className="profile-section">
+                      <h4>Professional Information</h4>
+                      <div className="profile-grid">
+                        <div className="profile-item">
+                          <label>Qualification:</label>
+                          <span>{attorneyFullProfile.qualification || 'N/A'}</span>
+                        </div>
+                        <div className="profile-item">
+                          <label>Specialization:</label>
+                          <span>{attorneyFullProfile.specialization || 'N/A'}</span>
+                        </div>
+                        <div className="profile-item">
+                          <label>Experience:</label>
+                          <span>{attorneyFullProfile.experience ? `${attorneyFullProfile.experience} years` : 'N/A'}</span>
+                        </div>
+                        <div className="profile-item">
+                          <label>License Number:</label>
+                          <span>{attorneyFullProfile.licenseNumber || 'N/A'}</span>
+                        </div>
+                        <div className="profile-item">
+                          <label>Bar Council:</label>
+                          <span>{attorneyFullProfile.barCouncil || 'N/A'}</span>
+                        </div>
+                        <div className="profile-item">
+                          <label>Joining Date:</label>
+                          <span>{attorneyFullProfile.joiningDate || 'N/A'}</span>
+                        </div>
+                        <div className="profile-item">
+                          <label>Attorney Code:</label>
+                          <span>{attorneyFullProfile.attorneyCode || 'N/A'}</span>
+                        </div>
+                        <div className="profile-item">
+                          <label>Consultation Fee:</label>
+                          <span>{attorneyFullProfile.consultationFee ? `Rs. ${attorneyFullProfile.consultationFee}` : 'N/A'}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Account Information */}
+                    <div className="profile-section">
+                      <h4>Account Information</h4>
+                      <div className="profile-grid">
+                        <div className="profile-item">
+                          <label>Account Created:</label>
+                          <span>{attorneyFullProfile.createdAt ? new Date(attorneyFullProfile.createdAt).toLocaleString() : 'N/A'}</span>
+                        </div>
+                        <div className="profile-item">
+                          <label>Last Updated:</label>
+                          <span>{attorneyFullProfile.updatedAt ? new Date(attorneyFullProfile.updatedAt).toLocaleString() : 'N/A'}</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
@@ -890,7 +962,126 @@ const AdminDoctors = () => {
                 >
                   Close
                 </button>
+                <button
+                  type="button"
+                  onClick={() => setShowProfileUpdate(true)}
+                  className="btn btn-edit"
+                >
+                  Edit Profile
+                </button>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* Profile Update Modal */}
+        {showProfileUpdate && attorneyFullProfile && (
+          <div className="modal-overlay" onClick={() => setShowProfileUpdate(false)}>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+              <div className="modal-header">
+                <h3>Update Profile: {attorneyFullProfile.name}</h3>
+                <button className="modal-close" onClick={() => setShowProfileUpdate(false)}>×</button>
+              </div>
+              <form onSubmit={handleProfileUpdateSubmit}>
+                <div className="profile-update-content">
+                  {/* Profile Photo Upload */}
+                  <div className="form-section">
+                    <h4>Profile Photo</h4>
+                    <div className="photo-upload-section">
+                      <div className="current-photo">
+                        {attorneyFullProfile.profilePhoto ? (
+                          <img 
+                            src={attorneyFullProfile.profilePhoto} 
+                            alt="Current Profile"
+                            className="current-profile-photo"
+                          />
+                        ) : (
+                          <div className="no-photo-placeholder">No Photo</div>
+                        )}
+                      </div>
+                      <div className="upload-section">
+                        <label className="upload-btn">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleProfilePhotoUpload}
+                            style={{ display: 'none' }}
+                          />
+                          📤 Upload New Photo
+                        </label>
+                        {profileUpdateData.profilePhoto && (
+                          <div className="photo-preview">
+                            <img src={profileUpdateData.profilePhoto} alt="New Profile" />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Professional Details */}
+                  <div className="form-section">
+                    <h4>Professional Details</h4>
+                    <div className="form-row">
+                      <div className="form-group">
+                        <label htmlFor="specialization">Specialization</label>
+                        <select
+                          id="specialization"
+                          name="specialization"
+                          value={profileUpdateData.specialization}
+                          onChange={handleProfileUpdateChange}
+                        >
+                          <option value="">Select Specialization</option>
+                          {specializations.map(spec => (
+                            <option key={spec} value={spec}>{spec}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="form-group">
+                        <label htmlFor="experience">Experience (years)</label>
+                        <input
+                          type="number"
+                          id="experience"
+                          name="experience"
+                          value={profileUpdateData.experience}
+                          onChange={handleProfileUpdateChange}
+                          min="0"
+                          max="50"
+                        />
+                      </div>
+                    </div>
+                    <div className="form-row">
+                      <div className="form-group">
+                        <label htmlFor="consultationFee">Consultation Fee (Rs)</label>
+                        <input
+                          type="number"
+                          id="consultationFee"
+                          name="consultationFee"
+                          value={profileUpdateData.consultationFee}
+                          onChange={handleProfileUpdateChange}
+                          min="0"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="modal-actions">
+                  <button
+                    type="button"
+                    onClick={() => setShowProfileUpdate(false)}
+                    className="btn btn-cancel"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    disabled={actionLoading.updating}
+                  >
+                    {actionLoading.updating ? 'Updating...' : 'Update Profile'}
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         )}

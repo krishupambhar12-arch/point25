@@ -1,16 +1,17 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaBalanceScale } from "react-icons/fa";
+import { FaBalanceScale, FaHome, FaTachometerAlt, FaUserCircle, FaCalendarAlt, FaComments, FaSignOutAlt } from "react-icons/fa";
 import "./doctorSidebar.css";
 import "../utils/apiInterceptor"; // Import global API interceptor
+import { useAuth } from "../context/AuthContext";
 
 const AttorneySidebar = () => {
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const handleLogout = () => {
     if (window.confirm("Are you sure you want to logout?")) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
+      logout();
       navigate("/");
     }
   };
@@ -28,12 +29,12 @@ const AttorneySidebar = () => {
         <h3 className="panel-text">Attorney Panel</h3>
       </div>
       <ul className="menu">
-        <li><Link to="/">Home</Link></li>
-        <li><Link to="/attorney/dashboard">Dashboard</Link></li>
-        <li><Link to="/attorney/profile">Profile</Link></li>
-        <li><Link to="/attorney/appointments">Appointments</Link></li>
-        <li className="hidden-item"><Link to="/attorney/consultation">Consultations</Link></li>
-        <li><button onClick={handleLogout} className="logout-btn">Logout</button></li>
+        <li><Link to="/"><FaHome className="menu-icon" /> Home</Link></li>
+        <li><Link to="/attorney/dashboard"><FaTachometerAlt className="menu-icon" /> Dashboard</Link></li>
+        <li><Link to="/attorney/profile"><FaUserCircle className="menu-icon" /> Profile</Link></li>
+        <li><Link to="/attorney/appointments"><FaCalendarAlt className="menu-icon" /> Appointments</Link></li>
+        <li className="hidden-item"><Link to="/attorney/consultation"><FaComments className="menu-icon" /> Consultations</Link></li>
+        <li><button onClick={handleLogout} className="logout-btn"><FaSignOutAlt className="menu-icon" /> Logout</button></li>
       </ul>
     </div>
   );

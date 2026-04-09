@@ -1137,3 +1137,29 @@ router.get("/consultation/:consultationId/messages", auth, async (req, res) => {
 });
 
 module.exports = router;
+
+router.get("/attorney/details", async (req, res) => {
+  try {
+
+    const email = req.query.email;
+
+    const [rows] = await db.query(
+      "SELECT * FROM attorneys WHERE email = ?",
+      [email]
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ message: "Attorney not found" });
+    }
+
+    res.json({
+      attorney: rows[0]
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Server error"
+    });
+  }
+});

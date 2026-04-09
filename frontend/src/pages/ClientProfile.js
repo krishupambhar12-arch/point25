@@ -432,7 +432,8 @@ const ClientProfile = () => {
             justifyContent: 'flex-start',
             flexWrap: 'nowrap',
             gap: '12px',
-            marginBottom: '15px'
+            marginBottom: '15px',
+            marginTop: '10px'
           }}>
             <button 
               className="edit-btn" 
@@ -463,24 +464,7 @@ const ClientProfile = () => {
             </button>
             
             {/* Continue button - always visible and next to Edit Profile */}
-            <button
-              className="continue-btn"
-              onClick={handleContinue}
-              style={{
-                padding: '12px 24px',
-                backgroundColor: '#17a2b8',
-                color: 'white',
-                border: 'none',
-                borderRadius: '8px',
-                cursor: 'pointer',
-                fontSize: '14px',
-                fontWeight: 'bold',
-                boxShadow: '0 4px 8px rgba(23, 162, 184, 0.3)',
-                transition: 'all 0.3s ease'
-              }}
-            >
-              Continue
-            </button>
+           
             
             {/* Save button - appears in edit mode */}
             {edit && (
@@ -499,6 +483,7 @@ const ClientProfile = () => {
                   fontWeight: 'bold',
                   boxShadow: '0 4px 8px rgba(40, 167, 69, 0.3)',
                   transition: 'all 0.3s ease'
+                  
                 }}
               >
                 {saving ? " Saving..." : " Save Changes"}

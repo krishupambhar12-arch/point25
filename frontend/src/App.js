@@ -9,6 +9,8 @@ import AttorneyForgotPassword from "./pages/AttorneyForgotPassword";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import ProtectedAdminRoute from './components/ProtectedAdminRoute';
+import ProtectedRoute from './components/ProtectedRoute';
+import { AuthProvider } from './context/AuthContext';
 import Register from "./pages/Register";
 import AttorneyDetailsForm from "./pages/AttorneyDetailsForm";
 import AttorneyDashboard from "./pages/AttorneyDashboard";
@@ -49,88 +51,130 @@ import Disclaimer from "./pages/Disclaimer";
 
 function App() {
   return (
-    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/attorney-register" element={<AttorneyRegister />} />
-        <Route path="/attorney-login" element={<AttorneyLogin />} />
-        <Route path="/attorney-signup" element={<AttorneySignup />} />
-        <Route path="/attorney/signup" element={<AttorneySignup />} />
-        <Route path="/attorney-forgot-password" element={<AttorneyForgotPassword />} />
-        <Route path="/attorney" element={<Navigate to="/attorney-login" replace />} />
-        <Route path="/user" element={<GoogleCallback />} />
-        <Route path="/profile" element={<ProfileRedirect />} />
-        <Route path="/attorney/details" element={<AttorneyDetailsForm />} />
-        <Route path="/attorney/dashboard" element={<AttorneyDashboard />} />
-        <Route path="/attorney/profile" element={<AttorneyProfile />} />
-        <Route path="/attorney/appointments" element={<AttorneyAppointments />} />
-        <Route path="/attorney/consultation" element={<AttorneyConsultation />} />
-        <Route path="/client/dashboard" element={<ClientDashboard />} />
-        <Route path="/client/profile" element={<ClientProfile />} />
-        <Route path="/client/appointments" element={<ClientAppointments/>} />
-        <Route path="/client/feedback" element={<ClientFeedback/>} />
-        <Route path="/client/lab-tests" element={<ClientLabTests/>} />
-        <Route path="/client/consultation" element={<ClientConsultation/>} />
-        <Route path="/services" element={<Services/>} />
-        <Route path="/lab-tests" element={<LabTestListing/>} />
-        <Route path="/book-lab-test/:testId" element={<BookLabTest/>} />
-        <Route path="/about" element={<About/>} />
-        <Route path="/contact" element={<Contact/>} />
-        <Route path="/attorneys" element={<AttorneyListing/>} />
-        <Route path="/book-appointment/:attorneyId" element={<BookAppointment/>} />
-        <Route path="/attorney-profile/:attorneyId" element={<PublicAttorneyProfile/>} />
-        <Route path="/admin" element={<AdminLogin/>} />
-        <Route path="/admin/dashboard" element={
-          <ProtectedAdminRoute>
-            <AdminDashboard/>
-          </ProtectedAdminRoute>
-        } />
-        <Route path="/admin/appointments" element={
-          <ProtectedAdminRoute>
-            <AdminAppointments/>
-          </ProtectedAdminRoute>
-        } />
-        <Route path="/admin/users" element={
-          <ProtectedAdminRoute>
-            <AdminPatients/>
-          </ProtectedAdminRoute>
-        } />
-        <Route path="/admin/doctors" element={
-          <ProtectedAdminRoute>
-            <AdminDoctors/>
-          </ProtectedAdminRoute>
-        } />
-        <Route path="/admin/feedback" element={
-          <ProtectedAdminRoute>
-            <AdminFeedback/>
-          </ProtectedAdminRoute>
-        } />
-        <Route path="/admin/services" element={
-          <ProtectedAdminRoute>
-            <AdminServices/>
-          </ProtectedAdminRoute>
-        } />
-        <Route path="/admin/lab-test-bookings" element={
-          <ProtectedAdminRoute>
-            <AdminLabTestBookings/>
-          </ProtectedAdminRoute>
-        } />
-        <Route path="/admin/consultations" element={
-          <ProtectedAdminRoute>
-            <AdminConsultations/>
-          </ProtectedAdminRoute>
-        } />
-        <Route path="/ai-advisor" element={<AIAdvisor/>} />
-        <Route path="/terms" element={<TermsAndConditions/>} />
-        <Route path="/privacy" element={<PrivacyPolicy/>} />
-        <Route path="/cookies" element={<CookiePolicy/>} />
-        <Route path="/disclaimer" element={<Disclaimer/>} />
+    <AuthProvider>
+      <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/attorney-register" element={<AttorneyRegister />} />
+          <Route path="/attorney-login" element={<AttorneyLogin />} />
+          <Route path="/attorney-signup" element={<AttorneySignup />} />
+          <Route path="/attorney/signup" element={<AttorneySignup />} />
+          <Route path="/attorney-forgot-password" element={<AttorneyForgotPassword />} />
+          <Route path="/attorney" element={<Navigate to="/attorney-login" replace />} />
+          <Route path="/user" element={<GoogleCallback />} />
+          <Route path="/profile" element={<ProfileRedirect />} />
+          <Route path="/attorney/details" element={<AttorneyDetailsForm />} />
+          <Route path="/attorney/dashboard" element={
+            <ProtectedRoute requiredRole="Attorney">
+              <AttorneyDashboard/>
+            </ProtectedRoute>
+          } />
+          <Route path="/attorney/profile" element={
+            <ProtectedRoute requiredRole="Attorney">
+              <AttorneyProfile/>
+            </ProtectedRoute>
+          } />
+          <Route path="/attorney/appointments" element={
+            <ProtectedRoute requiredRole="Attorney">
+              <AttorneyAppointments/>
+            </ProtectedRoute>
+          } />
+          <Route path="/attorney/consultation" element={
+            <ProtectedRoute requiredRole="Attorney">
+              <AttorneyConsultation/>
+            </ProtectedRoute>
+          } />
+          <Route path="/client/dashboard" element={
+            <ProtectedRoute requiredRole="Client">
+              <ClientDashboard/>
+            </ProtectedRoute>
+          } />
+          <Route path="/client/profile" element={
+            <ProtectedRoute requiredRole="Client">
+              <ClientProfile/>
+            </ProtectedRoute>
+          } />
+          <Route path="/client/appointments" element={
+            <ProtectedRoute requiredRole="Client">
+              <ClientAppointments/>
+            </ProtectedRoute>
+          } />
+          <Route path="/client/feedback" element={
+            <ProtectedRoute requiredRole="Client">
+              <ClientFeedback/>
+            </ProtectedRoute>
+          } />
+          <Route path="/client/lab-tests" element={
+            <ProtectedRoute requiredRole="Client">
+              <ClientLabTests/>
+            </ProtectedRoute>
+          } />
+          <Route path="/client/consultation" element={
+            <ProtectedRoute requiredRole="Client">
+              <ClientConsultation/>
+            </ProtectedRoute>
+          } />
+          <Route path="/services" element={<Services/>} />
+          <Route path="/lab-tests" element={<LabTestListing/>} />
+          <Route path="/book-lab-test/:testId" element={<BookLabTest/>} />
+          <Route path="/about" element={<About/>} />
+          <Route path="/contact" element={<Contact/>} />
+          <Route path="/attorneys" element={<AttorneyListing/>} />
+          <Route path="/book-appointment/:attorneyId" element={<BookAppointment/>} />
+          <Route path="/attorney-profile/:attorneyId" element={<PublicAttorneyProfile/>} />
+          <Route path="/admin" element={<AdminLogin/>} />
+          <Route path="/admin/dashboard" element={
+            <ProtectedAdminRoute>
+              <AdminDashboard/>
+            </ProtectedAdminRoute>
+          } />
+          <Route path="/admin/appointments" element={
+            <ProtectedAdminRoute>
+              <AdminAppointments/>
+            </ProtectedAdminRoute>
+          } />
+          <Route path="/admin/users" element={
+            <ProtectedAdminRoute>
+              <AdminPatients/>
+            </ProtectedAdminRoute>
+          } />
+          <Route path="/admin/doctors" element={
+            <ProtectedAdminRoute>
+              <AdminDoctors/>
+            </ProtectedAdminRoute>
+          } />
+          <Route path="/admin/feedback" element={
+            <ProtectedAdminRoute>
+              <AdminFeedback/>
+            </ProtectedAdminRoute>
+          } />
+          <Route path="/admin/services" element={
+            <ProtectedAdminRoute>
+              <AdminServices/>
+            </ProtectedAdminRoute>
+          } />
+          <Route path="/admin/lab-test-bookings" element={
+            <ProtectedAdminRoute>
+              <AdminLabTestBookings/>
+            </ProtectedAdminRoute>
+          } />
+          <Route path="/admin/consultations" element={
+            <ProtectedAdminRoute>
+              <AdminConsultations/>
+            </ProtectedAdminRoute>
+          } />
+          <Route path="/ai-advisor" element={<AIAdvisor/>} />
+          <Route path="/terms" element={<TermsAndConditions/>} />
+          <Route path="/privacy" element={<PrivacyPolicy/>} />
+          <Route path="/cookies" element={<CookiePolicy/>} />
+          <Route path="/disclaimer" element={<Disclaimer/>} />
 
-      </Routes>
-    </Router>
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 

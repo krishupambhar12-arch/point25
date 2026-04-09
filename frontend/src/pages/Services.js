@@ -11,6 +11,8 @@ const Services = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [showServiceModal, setShowServiceModal] = useState(false);
+  const [selectedService, setSelectedService] = useState(null);
   const navigate = useNavigate();
 
   const categories = ["all", "Legal Service", "Consultation", "Document Review", "Court Representation", "Legal Advice"];
@@ -45,6 +47,16 @@ const Services = () => {
   const handleBookService = (service) => {
     // Navigate to attorneys page with service context
     navigate('/attorneys', { state: { service: service.service_name } });
+  };
+
+  const handleViewService = (service) => {
+    setSelectedService(service);
+    setShowServiceModal(true);
+  };
+
+  const handleCloseServiceModal = () => {
+    setShowServiceModal(false);
+    setSelectedService(null);
   };
 
   if (loading) {
@@ -96,13 +108,8 @@ const Services = () => {
             filteredServices.map((service) => {
               console.log('Rendering service:', service);
               return (
-                <div key={service.id} className="service-card">
+                <div key={service.id} className="service-card" onClick={() => handleViewService(service)}>
                   <div className="service-icon">
-                    {/* <ServiceIcon 
-                    iconName={service.icon || 'Gavel'} 
-                    iconFile={service.icon_file}
-                    size={48} 
-                  /> */}
                     <ServiceIcon
                       iconName={service.icon || 'Gavel'}
                       iconFile={service.icon_file}
@@ -114,7 +121,10 @@ const Services = () => {
                   <div className="service-category">{service.category}</div>
                   <button
                     className="book-btn"
-                    onClick={() => handleBookService(service)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleBookService(service);
+                    }}
                   >
                     Book Service
                   </button>
@@ -127,6 +137,48 @@ const Services = () => {
             </div>
           )}
         </div>
+
+        {/* Service Detail Modal */}
+        {showServiceModal && selectedService && (
+          <div className="service-modal-overlay" onClick={handleCloseServiceModal}>
+            <div className="service-modal-content" onClick={(e) => e.stopPropagation()}>
+              <div className="service-modal-header">
+                <button className="service-modal-close" onClick={handleCloseServiceModal}>×</button>
+              </div>
+              <div className="service-modal-body">
+                <div className="service-modal-icon">
+                  <ServiceIcon
+                    iconName={selectedService.icon || 'Gavel'}
+                    iconFile={selectedService.icon_file}
+                    size={80}
+                  />
+                </div>
+                <h2>{selectedService.service_name}</h2>
+                <div className="service-modal-category">{selectedService.category}</div>
+                <p className="service-modal-description">
+                  {selectedService.description || 'Professional legal service tailored to meet your specific needs. Our experienced attorneys provide comprehensive legal assistance in this area.'}
+                </p>
+                <div className="service-modal-actions">
+                  <button
+                    className="book-btn"
+                    onClick={() => {
+                      handleBookService(selectedService);
+                      handleCloseServiceModal();
+                    }}
+                  >
+                    Book This Service
+                  </button>
+                  <button
+                    className="close-modal-btn"
+                    onClick={handleCloseServiceModal}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
       <Footer />
     </>

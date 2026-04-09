@@ -14,6 +14,7 @@ const AttorneyDashboard = () => {
   const [totalPatients, setTotalPatients] = useState(0);
   const [upcomingAppointments, setUpcomingAppointments] = useState(0);
   const [earnings, setEarnings] = useState(0);
+  const [appointments, setAppointments] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -43,11 +44,18 @@ const AttorneyDashboard = () => {
         
         if (res.ok) {
           console.log("🔍 Dashboard attorney data:", data.attorney);
+
+            // Save attorney data for profile page
+              localStorage.setItem("attorneyData", JSON.stringify(data.attorney));
+
           setAttorney(data.attorney);
           setTodayAppointments(data.stats.todayAppointments);
           setTotalPatients(data.stats.totalClients);
           setUpcomingAppointments(data.stats.upcomingAppointments);
           setEarnings(data.stats.earnings);
+          
+          // Fetch attorney appointments
+          await fetchAttorneyAppointments(token);
         } else {
           // Check if force logout is required
           if (data.forceLogout || data.deactivated) {
@@ -66,6 +74,21 @@ const AttorneyDashboard = () => {
         setError(err.message || "Failed to load dashboard");
       } finally {
         setLoading(false);
+      }
+    };
+
+    const fetchAttorneyAppointments = async (token) => {
+      try {
+        const res = await fetch(API.ATTORNEY_APPOINTMENTS, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        
+        if (res.ok) {
+          const data = await res.json();
+          setAppointments(data.appointments || []);
+        }
+      } catch (err) {
+        console.error("Error fetching appointments:", err);
       }
     };
 
@@ -107,7 +130,51 @@ const AttorneyDashboard = () => {
           </div>
           <div className="card">
             <h2>Earnings</h2>
-            <p>₹{earnings}</p>
+            <p>Rs.{earnings}</p>
+          </div>
+        </div>
+
+        {/* Recent Appointments Section */}
+        <div className="recent-appointments">
+          <h3>Recent Appointments</h3>
+          <div className="appointments-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Client</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {appointments.length > 0 ? appointments.slice(0, 5).map(appointment => (
+                  <tr key={appointment.id}>
+                    <td>{appointment.date || "N/A"}</td>
+                    <td>{appointment.time || "N/A"}</td>
+                    <td>{appointment.patientName || appointment.clientName || "Unknown"}</td>
+                    <td>
+                      <span
+                        className="status-badge"
+                        style={{ 
+                          backgroundColor: 
+                            appointment.status === 'Completed' ? '#28a745' :
+                            appointment.status === 'Scheduled' ? '#007bff' :
+                            appointment.status === 'Cancelled' ? '#dc3545' :
+                            appointment.status === 'Pending' ? '#ffc107' : '#6c757d'
+                        }}
+                      >
+                        {appointment.status || 'Unknown'}
+                      </span>
+                    </td>
+                  </tr>
+                )) : (
+                  <tr>
+                    <td colSpan="4" style={{ textAlign: 'center' }}>No appointments found</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
         </div>
 

@@ -96,6 +96,7 @@ const Home = () => {
   return (
     <>
       <Header />
+      <div className="main-container">
       
 
       {/* Hero Section */}
@@ -298,6 +299,7 @@ const Home = () => {
       </div>
 
       <Footer />
+      </div>
     </>
   );
 };

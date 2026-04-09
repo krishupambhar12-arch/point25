@@ -113,6 +113,9 @@ const PublicAttorneyProfile = () => {
               <button onClick={handleBookAppointment} className="book-appointment-btn">
                 Book Consultation
               </button>
+              <button onClick={() => navigate("/attorneys")} className="back-attorney-btn">
+                Back Attorney
+              </button>
               <button onClick={() => navigate("/attorneys")} className="back-btn">
                 Back to Attorneys
               </button>
@@ -141,12 +144,12 @@ const PublicAttorneyProfile = () => {
             <h2>Contact Information</h2>
             <div className="contact-card">
               <div className="contact-item">
-                <h3>Email</h3>
+                <h3>Email :</h3>
                 <p>{attorney.email}</p>
               </div>
               {attorney.phone && (
                 <div className="contact-item">
-                  <h3>Phone</h3>
+                  <h3>Phone :</h3>
                   <p>{attorney.phone}</p>
                 </div>
               )}

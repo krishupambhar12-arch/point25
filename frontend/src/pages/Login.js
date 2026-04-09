@@ -3,6 +3,7 @@ import "../styles/login.css"; // your existing CSS
 import "../styles/variables.css";
 import { API } from "../config/api";
 import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -10,6 +11,7 @@ const Login = () => {
   const [message, setMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -65,18 +67,12 @@ const Login = () => {
         if (event.data.type === 'social-auth-success') {
           popup.close();
           window.removeEventListener('message', messageHandler);
-
-          // Check if user is a Client - only allow Client users
-          const userRole = event.data.user.role;
-          if (userRole !== "Client") {
-            alert('❌ Access denied. This login is for clients only. Attorneys should use the attorney login page.');
-            return;
-          }
-
-          // Save token and role
-          localStorage.setItem('token', event.data.token);
-          localStorage.setItem('role', event.data.user.role);
-
+          
+          console.log('Social auth success data:', event.data);
+          
+          // Use AuthContext login function
+          login(event.data.token, event.data.role);
+          
           // Show success alert with user name
           const userName = event.data.user.name || event.data.user.email;
           alert(`🎉 Welcome, ${userName}! Login successful.`);
@@ -209,9 +205,8 @@ const Login = () => {
       // Show success message
       setMessage("✅ Login Successful! Redirecting...");
       
-      // token & role save
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("role", data.user ? data.user.role : data.attorney.role);
+      // Use AuthContext login function
+      login(data.token, userRole);
       
       // Save user name and email for dashboard use
       const userName = data.user ? data.user.name : data.attorney.name;

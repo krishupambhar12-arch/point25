@@ -1347,4 +1347,168 @@ router.post("/mark-expired", auth, async (req, res) => {
   }
 });
 
+// ===== ADMIN FEEDBACK ROUTES =====
+
+// Get all feedbacks for admin
+router.get("/feedback", auth, async (req, res) => {
+  try {
+    if (req.userRole !== "Admin") {
+      return res.status(403).json({ message: "Only admins can access feedback" });
+    }
+
+    const { status } = req.query;
+    console.log("🔍 Admin fetching feedbacks with status filter:", status);
+
+    // Build query based on status filter
+    let query = { isActive: true };
+    if (status && status !== "") {
+      query.status = status;
+    }
+
+    const feedbacks = await Feedback.find(query)
+      .populate('user_id', 'name email')
+      .sort({ createdAt: -1 });
+
+    console.log("🔍 Found feedbacks:", feedbacks.length);
+
+    // Transform feedbacks to include user details
+    const transformedFeedbacks = feedbacks.map(feedback => ({
+      id: feedback._id,
+      subject: feedback.subject,
+      message: feedback.message,
+      rating: feedback.rating,
+      status: feedback.status,
+      createdAt: feedback.createdAt,
+      updatedAt: feedback.updatedAt,
+      admin_response: feedback.admin_response,
+      responded_by: feedback.responded_by,
+      responded_at: feedback.responded_at,
+      user: feedback.user_id ? {
+        id: feedback.user_id._id,
+        name: feedback.user_id.name,
+        email: feedback.user_id.email
+      } : null
+    }));
+
+    res.json({
+      feedbacks: transformedFeedbacks,
+      total: transformedFeedbacks.length
+    });
+  } catch (error) {
+    console.error("❌ Error fetching admin feedbacks:", error);
+    res.status(500).json({ message: "Failed to fetch feedbacks" });
+  }
+});
+
+// Update feedback status
+router.put("/feedback/:feedbackId/status", auth, async (req, res) => {
+  try {
+    if (req.userRole !== "Admin") {
+      return res.status(403).json({ message: "Only admins can update feedback status" });
+    }
+
+    const { feedbackId } = req.params;
+    const { status } = req.body;
+
+    console.log("🔍 Admin updating feedback status:", feedbackId, "->", status);
+
+    const feedback = await Feedback.findById(feedbackId);
+    if (!feedback) {
+      return res.status(404).json({ message: "Feedback not found" });
+    }
+
+    feedback.status = status;
+    await feedback.save();
+
+    console.log("✅ Feedback status updated successfully");
+
+    res.json({
+      message: "Feedback status updated successfully",
+      feedback: {
+        id: feedback._id,
+        status: feedback.status
+      }
+    });
+  } catch (error) {
+    console.error("❌ Error updating feedback status:", error);
+    res.status(500).json({ message: "Failed to update feedback status" });
+  }
+});
+
+// Respond to feedback
+router.put("/feedback/:feedbackId/respond", auth, async (req, res) => {
+  try {
+    if (req.userRole !== "Admin") {
+      return res.status(403).json({ message: "Only admins can respond to feedback" });
+    }
+
+    const { feedbackId } = req.params;
+    const { admin_response, status } = req.body;
+
+    console.log("🔍 Admin responding to feedback:", feedbackId);
+
+    const feedback = await Feedback.findById(feedbackId);
+    if (!feedback) {
+      return res.status(404).json({ message: "Feedback not found" });
+    }
+
+    feedback.admin_response = admin_response;
+    feedback.responded_by = req.userId;
+    feedback.responded_at = new Date();
+    if (status) {
+      feedback.status = status;
+    }
+
+    await feedback.save();
+
+    console.log("✅ Feedback response added successfully");
+
+    res.json({
+      message: "Response added successfully",
+      feedback: {
+        id: feedback._id,
+        admin_response: feedback.admin_response,
+        status: feedback.status,
+        responded_at: feedback.responded_at
+      }
+    });
+  } catch (error) {
+    console.error("❌ Error responding to feedback:", error);
+    res.status(500).json({ message: "Failed to respond to feedback" });
+  }
+});
+
+// Delete feedback
+router.delete("/feedback/:feedbackId", auth, async (req, res) => {
+  try {
+    if (req.userRole !== "Admin") {
+      return res.status(403).json({ message: "Only admins can delete feedback" });
+    }
+
+    const { feedbackId } = req.params;
+
+    console.log("🔍 Admin deleting feedback:", feedbackId);
+
+    const feedback = await Feedback.findById(feedbackId);
+    if (!feedback) {
+      return res.status(404).json({ message: "Feedback not found" });
+    }
+
+    // Soft delete
+    feedback.isActive = false;
+    feedback.deletedAt = new Date();
+    feedback.deletionReason = "Deleted by admin";
+    await feedback.save();
+
+    console.log("✅ Feedback deleted successfully");
+
+    res.json({
+      message: "Feedback deleted successfully"
+    });
+  } catch (error) {
+    console.error("❌ Error deleting feedback:", error);
+    res.status(500).json({ message: "Failed to delete feedback" });
+  }
+});
+
 module.exports = router;

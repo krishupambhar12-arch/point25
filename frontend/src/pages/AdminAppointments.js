@@ -307,13 +307,13 @@ const AdminAppointments = () => {
               >
                 + Add Appointment
               </button> */}
-            <button 
+            {/* <button 
               onClick={markExpiredAppointments}
               className="mark-expired-btn"
               disabled={actionLoading.markingExpired}
             >
               {actionLoading.markingExpired ? 'Please wait...' : 'Mark Expired Appointments'}
-            </button>
+            </button> */}
             </div>
           </div>
           <div className="appointments-table">

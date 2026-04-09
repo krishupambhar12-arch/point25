@@ -155,7 +155,7 @@
 .stat-card {
   background: #efeded;
   border-radius: 12px;
-  padding: 20px;
+  padding: 0px;
   text-align: center;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s ease;
@@ -169,7 +169,7 @@
 
 .stat-card h3 {
   font-size: 16px;
-  color: var(--color-muted-purple);
+  color: white;
   margin-bottom: 10px;
 }
 

@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require("../models/User");
 const Attorney = require("../models/Attorney");
 const Appointment = require("../models/Appointment");
+const Feedback = require("../models/Feedback");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth");
@@ -570,6 +571,91 @@ router.post("/attorney-forgot-password", async (req, res) => {
   } catch (error) {
     console.error("❌ Attorney forgot password error:", error);
     res.status(500).json({ message: "Server error" });
+  }
+});
+
+// ===== FEEDBACK ROUTES =====
+
+// Submit feedback
+router.post("/feedback", auth, async (req, res) => {
+  try {
+    const userId = req.userId;
+    const { subject, message, rating } = req.body;
+
+    console.log("🔍 Feedback submission request:", { userId, subject, rating });
+
+    // Validate input
+    if (!subject || !message) {
+      return res.status(400).json({ message: "Subject and message are required" });
+    }
+
+    if (rating < 1 || rating > 5) {
+      return res.status(400).json({ message: "Rating must be between 1 and 5" });
+    }
+
+    // Get user details
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Create feedback
+    const feedback = new Feedback({
+      user_id: userId,
+      subject,
+      message,
+      rating: parseInt(rating),
+      status: "Pending"
+    });
+
+    await feedback.save();
+    console.log("✅ Feedback submitted successfully with ID:", feedback._id);
+
+    res.status(201).json({
+      message: "Feedback submitted successfully",
+      feedback: {
+        id: feedback._id,
+        subject: feedback.subject,
+        message: feedback.message,
+        rating: feedback.rating,
+        status: feedback.status,
+        createdAt: feedback.createdAt
+      }
+    });
+  } catch (error) {
+    console.error("❌ Feedback submission error:", error);
+    res.status(500).json({ message: "Failed to submit feedback" });
+  }
+});
+
+// Get user feedbacks
+router.get("/feedback", auth, async (req, res) => {
+  try {
+    const userId = req.userId;
+
+    console.log("🔍 Get feedbacks request for user:", userId);
+
+    // Get user's feedbacks
+    const feedbacks = await Feedback.find({ user_id: userId })
+      .sort({ createdAt: -1 });
+
+    console.log("🔍 Found feedbacks:", feedbacks.length);
+
+    res.json({
+      feedbacks: feedbacks.map(feedback => ({
+        id: feedback._id,
+        subject: feedback.subject,
+        message: feedback.message,
+        rating: feedback.rating,
+        status: feedback.status,
+        createdAt: feedback.createdAt,
+        admin_response: feedback.admin_response,
+        responded_at: feedback.responded_at
+      }))
+    });
+  } catch (error) {
+    console.error("❌ Get feedbacks error:", error);
+    res.status(500).json({ message: "Failed to load feedbacks" });
   }
 });
 

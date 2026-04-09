@@ -89,6 +89,7 @@
 .btn-delete {
   background-color: var(--color-light);
   color: white;
+  margin-top: 4px;
 }
 
 .btn-delete:hover {
@@ -127,10 +128,12 @@
 }
 
 .services-table th {
-  background-color: #e6d8f3;
+  background-color: var(--color-dark-purple);
   font-weight: 600;
-  color: #7a288a;
+  color: #f0f0f0;
   border-bottom: 2px solid #dee2e6;
+  padding: 20px;
+  font-size: 18px;
 }
 
 .services-table tr:hover {
